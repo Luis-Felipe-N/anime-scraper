@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio'
 import { IAnimes, I,  IEpisodesAnime, ISeasonsAnime } from '../@types/AnimesScraper'
+import { animeBizExtractor } from '../extractors/animebiz'
 import { fetchOrCache } from '../ultis/fertchOrCache'
 
 const GENRE_LIST = ['acao', 'artes-marciais', 'aventura', 'comedia']
@@ -87,9 +88,10 @@ export default class AnimeBrBiz {
                 let episodesInfons;
 
                 if ( linkEpisode ) {
-                    this.getDescriptionAndPlayerAnime(linkEpisode)
+                    episodesInfons = this.getDescriptionAndPlayerAnime(linkEpisode)
                 }
-                
+
+                console.log(episodesInfons)
 
                 return {
                     title: titleEpisode,
@@ -137,8 +139,6 @@ export default class AnimeBrBiz {
         const $ = cheerio.load(data)
 
         const description = $('#info').text()
-        const linkPlayer = $('video.video-stream.html5-main-video').attr('src')
-        console.log('PLAYER')
-        console.log(linkPlayer)
+        const linkPlayer = animeBizExtractor(data)
     }
 }

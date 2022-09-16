@@ -7,14 +7,14 @@ export async function fetchOrCache(url: string, ignoreCache = false): Promise<st
   if (!existsSync('.cache')) {
     mkdirSync('.cache');
   }
-  console.log(`Getting data for ${url}...`);
+  // console.log(`Getting data for ${url}...`);
   if (
     !ignoreCache &&
     existsSync(
       `.cache/${Buffer.from(url).toString('base64')}.html`,
     )
   ) {
-    console.log(`I read ${url} from cache`);
+    // console.log(`I read ${url} from cache`);
     const HTMLData = await readFile(
       `.cache/${Buffer.from(url).toString('base64')}.html`,
       { encoding: 'utf8' },
