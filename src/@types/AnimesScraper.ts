@@ -13,15 +13,30 @@ export interface ISeasonsAnime {
 export interface IAnimes {
     title: string;
     slug: string;
-    rating: number;
     banner: {
         src: string | undefined;
         alt: string | undefined;
     };
+    rating: number;
+    seasons: ISeasonsAnime[];
     description: string;
-    seaseons: ISeasonsAnime[];
     genres: {
         name: string;
         slug: string;
-    }[]
+    }[];
+}
+export interface I {
+    title: string;
+    slug: string;
+    banner: {
+        src: string | undefined;
+        alt: string | undefined;
+    };
+    rating: number;
+    seasons: ISeasonsAnime[];
+    description: string;
+    genres: {
+        name: string;
+        slug: string;
+    }[];
 }

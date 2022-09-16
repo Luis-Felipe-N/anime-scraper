@@ -1,6 +1,5 @@
-import axios from 'axios'
 import * as cheerio from 'cheerio'
-import { IAnimes, IEpisodesAnime, ISeasonsAnime } from '../@types/AnimesScraper'
+import { IAnimes, I,  IEpisodesAnime, ISeasonsAnime } from '../@types/AnimesScraper'
 import { fetchOrCache } from '../ultis/fertchOrCache'
 
 const GENRE_LIST = ['acao', 'artes-marciais', 'aventura', 'comedia']
@@ -14,49 +13,55 @@ export default class AnimeBrBiz {
 
             return page
         })
-
     }
 
-    async getPageByGenre(genre: string) {
-        const url = `${BASE_URL}/genero/${genre}`
-        const data = await fetchOrCache(url)
+    async getPageByGenre(genre: string, pageStart = 14) {
+        let animesResult: IAnimes[] = []
+        const baseURLGenre = `${BASE_URL}/genero/${genre}`
+        
+        for (let index = pageStart; index < 9999; index++) {
+            console.log('Scraper na página ', index)
+            const url = baseURLGenre + `/page/` + index
+            const data = await fetchOrCache(url)
 
-        if (!data) {
-            return
-        }
-
-        const $ = cheerio.load(data)
-
-        const animesByGenre = $('.items article').toArray().map(async (elem) => {
-            const banner = {
-                src: $(elem).find('img').attr('src'),
-                alt: $(elem).find('img').attr('alt')
+            if (!data) {
+                return animesResult
             }
-            const rating = $(elem).find('.rating').text()
-            const title = $(elem).find('.data a').text()
-            const animeSlug = $(elem).find('.data a').attr('href')!.split('/').slice(4, 5)[0]
 
-            const pageAnime = await this.getPageAnimeBySlug(animeSlug)
+            const $ = cheerio.load(data)
 
-            if (pageAnime) {
-                const seaseonsAnime = await this.getSeasonsByAnimeSlug(pageAnime)
-                const infosAnime = await this.getInfoAnimeBySlug(pageAnime)
-                return {
+            const pagesAnime = $('.items article').toArray()
+
+            for (const elem of pagesAnime) {
+                const banner = {
+                    src: $(elem).find('img').attr('src'),
+                    alt: $(elem).find('img').attr('alt')
+                }
+                const rating = $(elem).find('.rating').text()
+                const title = $(elem).find('.data a').text()
+                const animeSlug = $(elem).find('.data a').attr('href')!.split('/').slice(4, 5)[0]
+
+                const pageAnime = await this.getPageAnimeBySlug(animeSlug)
+
+                if (!pageAnime) return
+
+                const seasonsAnime: ISeasonsAnime[] = await this.getSeasonsByAnimeSlug(pageAnime)
+                const infosAnime = this.getInfoAnimeBySlug(pageAnime)
+
+                const animeByGenre: IAnimes = {
+                    title,
                     slug: animeSlug,
                     banner,
                     rating: Number(rating),
-                    title,
-                    seaseons: seaseonsAnime,
+                    seasons: seasonsAnime,
                     ...infosAnime
                 }
+
+                animesResult.push(animeByGenre)
             }
+        }
 
-
-        })
-
-        console.log('ANIMES', animesByGenre)
-
-        return animesByGenre
+        return animesResult
     }
 
     async getPageAnimeBySlug(slug: string) {
@@ -74,10 +79,17 @@ export default class AnimeBrBiz {
             const title = $(elem).find('.se-q .title').text()
 
             const listLinksEpisodes: IEpisodesAnime[] = $(elem).find('.se-a .episodios li').toArray().map(elemEpisode => {
-                const titleEpisode = $(elemEpisode).find('episodiotitle a').text()
-                const linkEpisode = $(elemEpisode).find('episodiotitle a').attr('href')
-                const dateEpisode = $(elemEpisode).find('date').text()
-                const imageEpisode = $(elemEpisode).find('imagen img').attr('src')
+                const titleEpisode = $(elemEpisode).find('.episodiotitle a').text()
+                const linkEpisode = $(elemEpisode).find('.episodiotitle a').attr('href')
+                const dateEpisode = $(elemEpisode).find('.date').text()
+                const imageEpisode = $(elemEpisode).find('.imagen img').attr('src')
+
+                let episodesInfons;
+
+                if ( linkEpisode ) {
+                    this.getDescriptionAndPlayerAnime(linkEpisode)
+                }
+                
 
                 return {
                     title: titleEpisode,
@@ -87,6 +99,7 @@ export default class AnimeBrBiz {
                 }
             })
 
+
             return {
                 title,
                 episodes: listLinksEpisodes
@@ -95,7 +108,7 @@ export default class AnimeBrBiz {
         return seaseosFormated
     }
 
-    async getInfoAnimeBySlug(pageAnime: string) {
+    getInfoAnimeBySlug(pageAnime: string) {
         const $ = cheerio.load(pageAnime)
 
         const description = $('.content .resumotemp').text()
@@ -113,5 +126,19 @@ export default class AnimeBrBiz {
             description,
             genres
         }
+    }
+
+    async getDescriptionAndPlayerAnime(url: string) {
+        const data = await fetchOrCache(url)
+
+        if (!data) {
+            return
+        }
+        const $ = cheerio.load(data)
+
+        const description = $('#info').text()
+        const linkPlayer = $('video.video-stream.html5-main-video').attr('src')
+        console.log('PLAYER')
+        console.log(linkPlayer)
     }
 }
