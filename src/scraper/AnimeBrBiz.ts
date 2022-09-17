@@ -26,7 +26,11 @@ export default class AnimeBrBiz {
             const data = await fetchOrCache(url)
 
             if (!data) {
-                return animesResult
+                if (index == 1) {
+                    throw new Error("Gênero não encontrado");
+                }
+
+                return
             }
 
             const $ = cheerio.load(data)
@@ -74,39 +78,44 @@ export default class AnimeBrBiz {
     }
 
     async getSeasonsByAnimeSlug(pageAnime: string){
+        let listLinksEpisodes: IEpisodesAnime[] = [];
+        let seaseosFormated: ISeasonsAnime[] = [];
+
         const $ = cheerio.load(pageAnime)
         const seaseons = $('.content .tempep #seasons .se-c').toArray()
-        const seaseosFormated = seaseons.map(elem => {
-            const title = $(elem).find('.se-q .title').text()
+        
+        for (const elemSeaons of seaseons){          
+            const title = $(elemSeaons).find('.se-q .title').text()
 
-            const listLinksEpisodes: IEpisodesAnime[] = $(elem).find('.se-a .episodios li').toArray().map(elemEpisode => {
-                const titleEpisode = $(elemEpisode).find('.episodiotitle a').text()
-                const linkEpisode = $(elemEpisode).find('.episodiotitle a').attr('href')
-                const dateEpisode = $(elemEpisode).find('.date').text()
-                const imageEpisode = $(elemEpisode).find('.imagen img').attr('src')
+            const listLinksEpisodesElement = $(elemSeaons).find('.se-a .episodios li').toArray()
 
-                let episodesInfons;
+            for (const linkElem of listLinksEpisodesElement) {
+                
+                    const linkEpisode = $(linkElem).find('.episodiotitle a').attr('href')
 
-                if ( linkEpisode ) {
-                    episodesInfons = this.getDescriptionAndPlayerAnime(linkEpisode)
-                }
+                    let linkEmbed;
 
-                console.log(episodesInfons)
+                    if ( linkEpisode ) {
+                        linkEmbed = await this.getLinkEmbed(linkEpisode)
+                    }
 
-                return {
-                    title: titleEpisode,
-                    image: imageEpisode,
-                    date: new Date(dateEpisode),
-                    link: linkEpisode
-                }
-            })
+                    listLinksEpisodes.push({
+                        title: $(linkElem).find('.episodiotitle a').text(),
+                        image: $(linkElem).find('.imagen img').attr('src'),
+                        date: new Date($(linkElem).find('.date').text()),
+                        linkPlayer: linkEmbed
+                    })
+                
+            }
 
-
-            return {
+            seaseosFormated.push({
                 title,
                 episodes: listLinksEpisodes
-            }
-        })
+            })
+        }
+
+        console.log(JSON.stringify(seaseosFormated))
+
         return seaseosFormated
     }
 
@@ -130,15 +139,16 @@ export default class AnimeBrBiz {
         }
     }
 
-    async getDescriptionAndPlayerAnime(url: string) {
+    async getLinkEmbed(url: string) {
         const data = await fetchOrCache(url)
 
         if (!data) {
             return
         }
-        const $ = cheerio.load(data)
+        // const $ = cheerio.load(data)
 
-        const description = $('#info').text()
         const linkPlayer = animeBizExtractor(data)
+
+        return linkPlayer
     }
 }

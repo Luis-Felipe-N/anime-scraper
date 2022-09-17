@@ -2,7 +2,7 @@ export interface IEpisodesAnime {
     title: string;
     image: string | undefined;
     date: Date;
-    link: string | undefined
+    linkPlayer: string | undefined
 }
 
 export interface ISeasonsAnime {
