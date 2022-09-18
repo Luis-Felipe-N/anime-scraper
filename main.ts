@@ -1,9 +1,10 @@
-import axios from "axios"
-import AnimeBrBiz from "./src/scraper/AnimeBrBiz"
+import express from 'express'
+import { router } from './src/routes'
 
+const app = express()
 
-const animeBrBiz = new AnimeBrBiz()
+app.use(express.json())
 
-const html  = animeBrBiz.getScraper(['acao'])
+app.use(router)
 
-console.log(html)
+app.listen(3000, () => console.log('Server is running in http://localhost:3000'))

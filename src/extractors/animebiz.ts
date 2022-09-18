@@ -1,9 +1,10 @@
 import cheerio from 'cheerio'
+import { fetchOrCache } from '../ultis/fertchOrCache'
 
-export function animeBizExtractor(data: string) {
+export async function animeBizExtractor(data: string) {
     const $ = cheerio.load(data)
     const linkIframe = $('#option-1 > iframe').attr('src')
-    // let urlPlayer
+    let urlPlayer
 
     // if ( linkIframe ){
     //     const dataIframe = await fetchOrCache(linkIframe)
@@ -12,8 +13,6 @@ export function animeBizExtractor(data: string) {
     //         const $$ = cheerio.load(dataIframe)
 
     //         const videoConfig = $$('head > script:nth-child(2)').text()
-
-    //         console.log(videoConfig)
 
     //         urlPlayer = extractorUrlFromString(videoConfig)
     //     }
