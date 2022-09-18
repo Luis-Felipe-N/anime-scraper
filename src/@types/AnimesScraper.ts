@@ -1,8 +1,9 @@
 export interface IEpisodesAnime {
     title: string;
     image: string | undefined;
-    date: Date;
-    linkPlayer: string | undefined
+    uploadedAt: Date;
+    linkPlayer: string | undefined,
+    linkEmbed: string
 }
 
 export interface ISeasonsAnime {

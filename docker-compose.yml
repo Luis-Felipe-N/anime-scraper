@@ -1,6 +1,18 @@
 version: "3.7"
 
 services:
+  database_anime:
+    image: postgres
+    container_name: database_anime
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=luisnunes
+      - POSTGRES_PASSWORD=luis55948
+      - POSTGRES_DB=animes
+    volumes:
+      - mydata:/data/mysql
   app: 
     build: .
     container_name: animeapi
@@ -8,3 +20,11 @@ services:
       - 3333:3333
     volumes:
       - .:/usr/app
+    links:
+      - database_anime
+    depends_on:
+      - database_anime
+
+volumes:
+  mydata:
+    driver: local
