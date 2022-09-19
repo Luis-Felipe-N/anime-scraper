@@ -1,4 +1,5 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import { Season } from "./Season";
 
 @Entity()
 export class Anime {
@@ -16,4 +17,7 @@ export class Anime {
 
     @Column()
     cover: string
+
+    @OneToMany((type) => Season, ( season ) => season.anime)
+    seasons: Season[]
 }

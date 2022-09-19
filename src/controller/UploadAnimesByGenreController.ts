@@ -4,9 +4,11 @@ import { UploadAnimesByGenreService } from "../services/UploadAnimesByGenreServi
 export class UploadAnimesByGenreController {
     async handle(request: Request, response: Response) {
         const { genre } = request.body
-        console.log(genre)
+
         const service = new UploadAnimesByGenreService()
 
-        const anime = service.execute(genre)
+        const animes = await service.execute(genre)
+
+        response.status(200).json(animes)
     }
 }

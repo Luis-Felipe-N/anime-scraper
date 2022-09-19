@@ -11,25 +11,13 @@ export class Season {
 
     @Column()
     title: string
-
-    @Column()
-    rating: number
-
-    @Column()
-    description: string
-
-    @Column()
-    cover: string
-
-    @Column()
-    duration: number
     
     @Column()
     anime_slug: string
 
     @ManyToOne(() => Anime)
     @JoinColumn({ name: "anime_slug"})
-    Anime: Anime    
+    anime: Anime    
 
     constructor() {
         if(!this.id) {

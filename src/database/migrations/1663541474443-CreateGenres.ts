@@ -39,6 +39,7 @@ export class CreateGenres1663541474443 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.dropTable("genres")
     }
 
 }

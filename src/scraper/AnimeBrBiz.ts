@@ -4,7 +4,7 @@ import { animeBizExtractor } from '../extractors/animebiz'
 import { fetchOrCache } from '../ultis/fertchOrCache'
 import { Scraper } from './Scraper'
 
-const GENRE_LIST = ['acao', 'artes-marciais', 'aventura', 'comedia']
+const GENRE_LIST = ['acao', 'artes-marciais', 'aventura', 'comedia', 'shounen']
 const BASE_URL = 'https://animesonline.cc'
 
 export default class AnimeBrBiz extends Scraper {
@@ -44,26 +44,7 @@ export default class AnimeBrBiz extends Scraper {
             const pagesAnime = $('.items article').toArray()
 
             for (const elem of pagesAnime) {
-                const cover = $(elem).find('img').attr('src')
-                const rating = $(elem).find('.rating').text()
-                const title = $(elem).find('.data a').text()
-                const animeSlug = $(elem).find('.data a').attr('href')!.split('/').slice(4, 5)[0]
-
-                const pageAnime = await this.getPageAnimeBySlug(animeSlug)
-
-                if (!pageAnime) return animesResult
-
-                const seasonsAnime: ISeasonsAnime[] = await this.getSeasonsByAnimeSlug(pageAnime)
-                const infosAnime = this.getInfoAnimeBySlug(pageAnime)
-
-                const animeByGenre: IAnimes = {
-                    title,
-                    slug: animeSlug,
-                    cover,
-                    rating: Math.round(Number(rating)),
-                    seasons: seasonsAnime,
-                    ...infosAnime
-                }
+                const animeByGenre = await this.getAnimeBySlug(elem)
 
                 animesResult.push(animeByGenre)
             }
@@ -74,10 +55,37 @@ export default class AnimeBrBiz extends Scraper {
         return animesResult
     }
 
+    async getAnimeBySlug(html: cheerio.Element) {
+
+        const $ = cheerio.load(html)
+
+        const cover = $('img').attr('src')
+        const rating = $('.rating').text()
+        const title = $('.data a').text()
+        const animeSlug = $('.data a').attr('href')!.split('/').slice(4, 5)[0]
+
+        const pageAnime = await this.getPageAnimeBySlug(animeSlug)
+
+        if (!pageAnime) return
+
+        const seasonsAnime: ISeasonsAnime[] = await this.getSeasonsByAnimeSlug(pageAnime)
+        const infosAnime = this.getInfoAnimeBySlug(pageAnime)
+
+        const animeByGenre: IAnimes = {
+            title,
+            slug: animeSlug,
+            cover,
+            rating: Math.round(Number(rating)),
+            seasons: seasonsAnime,
+            ...infosAnime
+        }
+
+        return animeByGenre
+    }
+
     async getPageAnimeBySlug(slug: string) {
         const url = `${BASE_URL}/anime/${slug}`
         const data = await fetchOrCache(url)
-
 
         return data
     }

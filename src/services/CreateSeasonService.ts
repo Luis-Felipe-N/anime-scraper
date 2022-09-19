@@ -1,18 +1,22 @@
+import { IEpisodesAnime } from "../@types/AnimesScraper";
 import { AppDataSource } from "../database/dataSource";
 import { Episode, Season } from "../entities";
+import { CreateEpisodeService } from "./CreateEpisodeService";
 
 interface ISeasonRequest {
-    
+    anime_slug: string;
+    title: string;
+    id: string;
 }
 
 export class CreateSeasonService {
-    async execute() {
+    async execute(seasons: ISeasonRequest[]) {
         const repoSeason = AppDataSource.getRepository(Season)
+        // const serviceEpisode = new CreateEpisodeService
+        console.log(seasons)
 
-        const season = repoSeason.create()
+        const seasonCreated = repoSeason.save(seasons)
 
-        repoSeason.save(season)
-
-        return season
+        return seasonCreated
     }
 }
