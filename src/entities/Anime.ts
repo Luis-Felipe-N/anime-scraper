@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class Anime {
@@ -11,6 +11,12 @@ export class Anime {
     @Column()
     rating: number
 
-    @Column('text')
+    @Column()
     description: string
+
+    @Column()
+    cover: string
+
+    @Column()
+    duration: number
 }

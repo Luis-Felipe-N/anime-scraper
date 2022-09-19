@@ -1,18 +1,21 @@
 import { DataSource } from 'typeorm'
-import { Episode } from '../modules/Anime/entities/Episode'
+import { Anime, Episode, Genre, Season } from '../entities'
 
+console.log('TGERT')
 
 export const AppDataSource = new DataSource({
     type: 'postgres',
-    host: 'localhost',
+    host: 'database_anime',
     port: 5432,
     username: 'luisnunes',
-    password: 'luis55948',
+    password: 'user123',
     database: 'animes',
-    entities: [Episode],
+    entities: [Anime, Episode, Genre, Season],
     synchronize: true,
     logging: false,
     migrations: ['src/database/migrations/*.ts'],
 })
 
-AppDataSource.initialize()
+AppDataSource.initialize().then(res => {
+    console.log("BANCO RODANDO")
+})

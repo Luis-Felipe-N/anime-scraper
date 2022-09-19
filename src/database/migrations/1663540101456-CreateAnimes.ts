@@ -1,39 +1,40 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm"
 
-export class CreateEpisode1663508923492 implements MigrationInterface {
+export class CreateAnimes1663540101456 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "episodes",
+                name: "animes",
                 columns: [
                     {
                         name: "title",
-                        type: "varchar",
-                    },
-                    {
-                        name: "image",
-                        type: "varchar",
-                    },
-                    {
-                        name: "updated_at",
-                        type: "timestamp"
-                    },
-                    {
-                        name: "linkEmbed",
-                        type: "varchar",
-                    },
-                    {
-                        name: "linkPlayer",
                         type: "varchar"
+                    },
+                    {
+                        name: "slug",
+                        type: "varchar",
+                        isPrimary: true
+                    },
+                    {
+                        name: "rating",
+                        type: "numeric"
+                    },
+                    {
+                        name: "description",
+                        type: "varchar"
+                    },
+                    {
+                        name: "cover",
+                        type: "varchar  "
                     }
-                ],
-            }),
+                ]
+            })
         )
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("episodes")
+        await queryRunner.dropTable("animes")
     }
 
 }

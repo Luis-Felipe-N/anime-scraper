@@ -9,7 +9,7 @@ services:
       - 5432:5432
     environment:
       - POSTGRES_USER=luisnunes
-      - POSTGRES_PASSWORD=luis55948
+      - POSTGRES_PASSWORD=user123
       - POSTGRES_DB=animes
     volumes:
       - mydata:/data/mysql

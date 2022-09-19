@@ -19,23 +19,8 @@ export interface IAnimes {
         alt: string | undefined;
     };
     rating: number;
-    seasons: ISeasonsAnime[];
     description: string;
-    genres: {
-        name: string;
-        slug: string;
-    }[];
-}
-export interface I {
-    title: string;
-    slug: string;
-    banner: {
-        src: string | undefined;
-        alt: string | undefined;
-    };
-    rating: number;
     seasons: ISeasonsAnime[];
-    description: string;
     genres: {
         name: string;
         slug: string;
