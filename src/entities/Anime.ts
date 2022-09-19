@@ -16,7 +16,4 @@ export class Anime {
 
     @Column()
     cover: string
-
-    @Column()
-    duration: number
 }

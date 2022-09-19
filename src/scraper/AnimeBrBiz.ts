@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio'
-import { IAnimes, I,  IEpisodesAnime, ISeasonsAnime } from '../@types/AnimesScraper'
+import { IAnimes, IEpisodesAnime, ISeasonsAnime } from '../@types/AnimesScraper'
 import { animeBizExtractor } from '../extractors/animebiz'
 import { fetchOrCache } from '../ultis/fertchOrCache'
 import { Scraper } from './Scraper'
@@ -44,10 +44,7 @@ export default class AnimeBrBiz extends Scraper {
             const pagesAnime = $('.items article').toArray()
 
             for (const elem of pagesAnime) {
-                const banner = {
-                    src: $(elem).find('img').attr('src'),
-                    alt: $(elem).find('img').attr('alt')
-                }
+                const cover = $(elem).find('img').attr('src')
                 const rating = $(elem).find('.rating').text()
                 const title = $(elem).find('.data a').text()
                 const animeSlug = $(elem).find('.data a').attr('href')!.split('/').slice(4, 5)[0]
@@ -62,8 +59,8 @@ export default class AnimeBrBiz extends Scraper {
                 const animeByGenre: IAnimes = {
                     title,
                     slug: animeSlug,
-                    banner,
-                    rating: Number(rating),
+                    cover,
+                    rating: Math.round(Number(rating)),
                     seasons: seasonsAnime,
                     ...infosAnime
                 }
@@ -98,20 +95,23 @@ export default class AnimeBrBiz extends Scraper {
             const listLinksEpisodesElement = $(elemSeaons).find('.se-a .episodios li').toArray()
 
             for (const linkElem of listLinksEpisodesElement) {
+                    let linkEmbed, linkPlayer;
                 
                     const linkEpisode = $(linkElem).find('.episodiotitle a').attr('href')
 
-                    let linkEmbed;
-
                     if ( linkEpisode ) {
-                        linkEmbed = await this.getLinkEmbed(linkEpisode, animeBizExtractor)
+                        const links = await this.getLinkEmbed(linkEpisode, animeBizExtractor)
+                        linkEmbed = links.linkEmbed
+                        linkPlayer = links.linkPlayer
                     }
 
                     episodesFormated.push({
                         title: $(linkElem).find('.episodiotitle a').text(),
                         image: $(linkElem).find('.imagen img').attr('src'),
-                        date: new Date($(linkElem).find('.date').text()),
-                        linkPlayer: linkEmbed
+                        uploaded_at: new Date($(linkElem).find('.date').text()),
+                        linkEmbed: linkEmbed,
+                        linkPlayer: linkPlayer,
+                        duration: 0,
                     })
                 
             }

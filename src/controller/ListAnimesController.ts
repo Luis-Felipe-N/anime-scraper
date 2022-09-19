@@ -3,11 +3,11 @@ import { Anime } from "../entities";
 import { ListAnimesService } from "../services/ListAnimesService";
 
 export class ListAnimesController {
-    async handle(request: Request, response: Response): Promise<Anime[]> {
+    async handle(request: Request, response: Response) {
         const service = new ListAnimesService()
 
-        const animes = service.execute()
+        const animes = await service.execute()
 
-        return animes
+        response.status(200).json(animes)
     }
 }

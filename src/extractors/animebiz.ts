@@ -3,23 +3,22 @@ import { fetchOrCache } from '../ultis/fertchOrCache'
 
 export async function animeBizExtractor(data: string) {
     const $ = cheerio.load(data)
-    const linkIframe = $('#option-1 > iframe').attr('src')
-    let urlPlayer
+    const linkEmbed = $('#option-1 > iframe').attr('src')
+    let linkPlayer
 
-    // if ( linkIframe ){
-    //     const dataIframe = await fetchOrCache(linkIframe)
+    if ( linkEmbed ){
+        const dataIframe = await fetchOrCache(linkEmbed)
 
-    //     if (dataIframe) {
-    //         const $$ = cheerio.load(dataIframe)
+        if (dataIframe) {
+            const $$ = cheerio.load(dataIframe)
 
-    //         const videoConfig = $$('head > script:nth-child(2)').text()
+            const videoConfig = $$('head > script:nth-child(2)').text()
 
-    //         urlPlayer = extractorUrlFromString(videoConfig)
-    //     }
-    // }
-    // console.log(urlPlayer)
+            linkPlayer = extractorUrlFromString(videoConfig)
+        }
+    }
 
-    return linkIframe
+    return {linkEmbed, linkPlayer}
 }
 
 // export async function animeBizExtractor(data: string) {

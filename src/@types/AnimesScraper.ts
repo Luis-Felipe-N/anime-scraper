@@ -1,9 +1,12 @@
 export interface IEpisodesAnime {
+    id?: string;
     title: string;
-    image: string | undefined;
-    uploadedAt: Date;
-    linkPlayer: string | undefined,
-    linkEmbed: string
+    image: string;
+    uploaded_at: Date;
+    linkPlayer?: string;
+    linkEmbed: string;
+    duration: number;
+    season_id?: string;
 }
 
 export interface ISeasonsAnime {
@@ -12,17 +15,15 @@ export interface ISeasonsAnime {
 }
 
 export interface IAnimes {
-    title: string;
-    slug: string;
-    banner: {
-        src: string | undefined;
-        alt: string | undefined;
-    };
-    rating: number;
-    description: string;
     seasons: ISeasonsAnime[];
     genres: {
         name: string;
         slug: string;
     }[];
+
+    slug: string;
+    title: string;
+    rating: number;
+    description: string;
+    cover: string;
 }

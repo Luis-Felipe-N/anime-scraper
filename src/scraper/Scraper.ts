@@ -1,7 +1,7 @@
 import { fetchOrCache } from "../ultis/fertchOrCache"
 
 interface IExtractor {
-    (data: string): Promise<string | undefined>
+    (data: string): Promise<{linkEmbed: string, linkPlayer: string} | undefined>
 }
 
 export class Scraper {
@@ -12,10 +12,10 @@ export class Scraper {
             return
         }
 
-        const linkPlayer = extractror(data)
+        const {linkEmbed, linkPlayer} = await extractror(data)
 
-        console.log(linkPlayer)
+        console.log(linkEmbed)
 
-        return linkPlayer
+        return {linkEmbed, linkPlayer}
     }
 }
