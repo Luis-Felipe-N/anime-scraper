@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn ./src/main.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
-    "migrate": "npx typeorm-ts-node-commonjs migration:run -d src/database/dataSource",
-    "revert": "npx typeorm-ts-node-commonjs migration:revert -d src/database"
+    "migrate": "ts-node-dev ./node_modules/typeorm/cli.js migration:run -d src/database/dataSource",
+    "revert": "npx typeorm-ts-node-commonjs migration:revert -d src/database/dataSource"
   },
   "keywords": [],
   "author": "",
@@ -20,7 +20,7 @@
     "@types/node": "^18.7.18",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.3.9",
+    "typeorm": "^0.3.10",
     "typescript": "^4.8.3"
   },
   "dependencies": {

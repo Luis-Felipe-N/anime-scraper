@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { IAnimes } from "../@types/AnimesScraper";
 import { UploadAnimesByGenreService } from "../services/UploadAnimesByGenreService";
 
 export class UploadAnimesByGenreController {
@@ -9,6 +10,8 @@ export class UploadAnimesByGenreController {
 
         const animes = await service.execute(genre)
 
-        response.status(200).json(animes)
+        if ((animes instanceof Error)) return response.status(400).json({message: animes.message})
+
+        return response.status(200).json(animes)
     }
 }

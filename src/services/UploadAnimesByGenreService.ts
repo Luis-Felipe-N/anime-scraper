@@ -12,24 +12,31 @@ export class UploadAnimesByGenreService {
 
         const animeBiz = new AnimeBrBiz()
 
-        const animesScraped = await animeBiz.getAnimesByGenre(genre)
+        try {
+            const animesScraped = await animeBiz.getAnimesByGenre(genre)
 
-        const animesCreated = await repo.save(animesScraped)
+            const animesCreated = await repo.save(animesScraped)
 
-        const animesSeasons = animesCreated.map(anime => {
-            return anime.seasons.map(season => {
-                if (anime.slug) {
-                    return {
-                        id: uuidV4(),
-                        ...season,
-                        anime_slug: anime.slug
+            const animesSeasons = animesCreated.map(anime => {
+                return anime.seasons.map(season => {
+                    if (anime.slug) {
+                        return {
+                            id: uuidV4(),
+                            ...season,
+                            anime_slug: anime.slug
+                        }
                     }
-                }
+                })
             })
-        })[0]
 
-        const seasonsCreated = await serviceSeason.execute(animesSeasons)
+            await serviceSeason.execute(animesSeasons.flat())
 
-        return animesCreated
+            return animesCreated
+        } catch (error) {
+            
+            return new Error(error.message)
+        }
+
+        
     }
 }

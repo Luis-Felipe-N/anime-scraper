@@ -12,8 +12,12 @@ interface ISeasonRequest {
 export class CreateSeasonService {
     async execute(seasons: ISeasonRequest[]) {
         const repoSeason = AppDataSource.getRepository(Season)
-        // const serviceEpisode = new CreateEpisodeService
-        console.log(seasons)
+        
+        if (!seasons) {
+            return new Error("Não é possível salvar Temporada inexistente")
+        }
+
+        console.log("SEASONS", seasons)
 
         const seasonCreated = repoSeason.save(seasons)
 

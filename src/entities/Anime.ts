@@ -18,6 +18,7 @@ export class Anime {
     @Column()
     cover: string
 
-    @OneToMany((type) => Season, ( season ) => season.anime)
+    @OneToMany(() => Season, season => season.anime)
+    @JoinColumn()
     seasons: Season[]
 }

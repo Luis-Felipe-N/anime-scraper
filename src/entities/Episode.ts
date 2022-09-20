@@ -28,9 +28,9 @@ export class Episode {
     @Column()
     season_id: string
 
-    @ManyToOne(() => Season)
+    @ManyToOne(() => Season, season => season.episodes)
     @JoinColumn({ name: "season_id"})
-    season: Anime
+    season: Season
 
     constructor() {
         if(!this.id) {

@@ -6,7 +6,6 @@ export class ListAnimesController {
         const service = new ListAnimesService()
 
         const animes = await service.execute()
-        console.log(animes)
 
         response.status(200).json({animes})
     }

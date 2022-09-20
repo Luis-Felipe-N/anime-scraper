@@ -14,31 +14,31 @@ export default class AnimeBrBiz extends Scraper {
         for (const genre of genreList) {
             const animesByGenre = await this.getAnimesByGenre(genre)
 
-            if (animesByGenre) {
-                allAnimes.push(...animesByGenre)
-            }
+            allAnimes.push(...animesByGenre)
         }
 
         return allAnimes
     }
 
-    async getAnimesByGenre(genre: string, pageStart = 14) {
+    async getAnimesByGenre(genre: string, startPage = 1) {
         let animesResult: IAnimes[] = []
         const baseURLGenre = `${BASE_URL}/genero/${genre}`
-        
-        for (let index = pageStart; index < 9999; index++) {
-            console.log('Scraper na página ', index)
-            const url = baseURLGenre + `/page/` + index
-            const data = await fetchOrCache(url)
 
-            if (!data) {
-                if (index == 1) {
-                    throw new Error("Gênero não encontrado");
+        let hasNextPage = true
+        let numberPage = startPage
+        do {
+            const url = baseURLGenre + `/page/` + numberPage
+            const data = await fetchOrCache(url)
+            
+            if (!data) {                            
+                if (numberPage == startPage) {
+                    throw new Error(`Gênero ${genre} não encontrado`);
                 }
 
+                hasNextPage = false
                 return animesResult
             }
-
+            
             const $ = cheerio.load(data)
 
             const pagesAnime = $('.items article').toArray()
@@ -48,9 +48,9 @@ export default class AnimeBrBiz extends Scraper {
 
                 animesResult.push(animeByGenre)
             }
-        }
 
-        console.log('ANIMES')
+            numberPage += 1
+        } while (hasNextPage);
 
         return animesResult
     }
