@@ -1,8 +1,8 @@
-import { Column, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm"
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm"
 import {v4 as uuidV4} from 'uuid'
-import { Anime } from "./Anime"
 import { Season } from "./Season"
 
+@Entity("Episodes")
 export class Episode {
     @PrimaryColumn()
     id: string

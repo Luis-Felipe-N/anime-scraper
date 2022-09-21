@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 import { Season } from "./Season";
 
-@Entity()
+@Entity("Animes")
 export class Anime {
     @PrimaryColumn()
     slug: string

@@ -2,7 +2,8 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 
 import {v4 as uuidV4} from 'uuid'
 import { Anime } from "./Anime";
 import { Episode } from "./Episode";
-@Entity()
+
+@Entity("Seasons")
 export class Season {
     @PrimaryColumn()
     id: string
@@ -19,7 +20,7 @@ export class Season {
 
     @OneToMany(() => Episode, episode => episode.season)
     @JoinColumn()
-    episodes: Episode
+    episodes: Episode[]
 
     constructor() {
         if(!this.id) {

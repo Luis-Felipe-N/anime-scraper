@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn, Unique } from "typeorm";
 import {v4 as uuidV4} from 'uuid'
 
-@Entity()
+@Entity("Genres")
 export class Genre {
     @PrimaryColumn()
     id: string
