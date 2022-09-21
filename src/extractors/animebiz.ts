@@ -20,28 +20,6 @@ export async function animeBizExtractor(data: string) {
 
     return {linkEmbed, linkPlayer}
 }
-
-// export async function animeBizExtractor(data: string) {
-//     const $ = cheerio.load(data)
-//     const linkIframe = $('#option-1 > iframe').attr('src')
-//     let urlPlayer
-
-//     process.setMaxListeners(Infinity)
-
-//     if ( linkIframe ){
-//         const browser = await puppeteer.launch()
-//         const page = await browser.newPage()
-//         await page.goto(linkIframe);
-//         await page.click('#videocontainer > div.play-button')
-//         // await page.waitForSelector('#movie_player > div.html5-video-container > video')
-        
-//         await browser.close()
-        
-//     }
-
-//     return urlPlayer
-// }
-
 function extractorUrlFromString(str: string) {
     const indexStartStrem = str.replace('var VIDEO_CONFIG = ', '')
 

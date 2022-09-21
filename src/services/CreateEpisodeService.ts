@@ -1,29 +1,30 @@
 import { AppDataSource } from "../database/dataSource";
-import { Episode, Season } from "../entities";
+import { Episode } from "../entities";
 
 interface IEpisodeRequest {
     duration: number;
     image: string;
     linkEmbed: string;
-    linkPlayer: string
-    season_id: string
-    title: string
-    uploaded_at: Date
+    linkPlayer: string;
+    season_id: string;
+    title: string;
+    uploaded_at: Date;
+    id: string;
+    // season: Season
+}
+
+interface ICreateEpisodeService {
+    episodes: Episode | Episode[]
 }
 
 export class CreateEpisodeService {
-    async execute({duration, image, linkEmbed, linkPlayer, season_id, title, uploaded_at}: IEpisodeRequest) {
+    async execute(episodes) {
         const repoEpisode = AppDataSource.getRepository(Episode)
-        const repoSeason = AppDataSource.getRepository(Season)
 
-        if (!await repoSeason.findOneBy({id: season_id}))  {
-            return new Error("Temporada não existe!")
-        }
+        
+        const episodesCreated = await repoEpisode.save(episodes)
+        console.log(episodesCreated)
 
-        const episode = repoEpisode.create({duration, image, linkEmbed, linkPlayer, season_id, title, uploaded_at})
-
-        repoEpisode.save(episode)
-
-        return episode
+        return episodesCreated
     }
 }

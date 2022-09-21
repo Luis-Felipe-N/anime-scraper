@@ -1,4 +1,10 @@
-### Anime scraper
+# Anime scraper
+
+Funcionalidades 
+- [x] getScraper - Faz scraper de todos os animes raspado do site pegando por gênero
+- [x] getAnimeByGenre - Faz scraper de animes pelo gênero.
+- [x] getAnimeBySlug - 
+<!-- 
 * [] Pegar animes pelos gêneros
     * [x] Percorrer os gêneros e pegar os slugs dos animes
     * [x] No gênero, percorrer toda paginação (1 - N). Quando a página não retornar nada, passar para outro gênero
@@ -16,4 +22,4 @@
         - video
         - descrição do episódio
         - nome do episódio
-    }
+    } -->

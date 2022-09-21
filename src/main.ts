@@ -1,9 +1,11 @@
 import "reflect-metadata"
 import express from 'express'
-import './database/dataSource'
 import { router } from './routes'
+import { createConnection } from "./database/dataSource"
 
 const app = express()
+
+createConnection()
 
 app.use(express.json())
 

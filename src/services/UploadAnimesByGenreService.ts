@@ -1,6 +1,5 @@
-import { IAnimes } from "../@types/AnimesScraper";
 import { AppDataSource } from "../database/dataSource";
-import { Anime as AnimeEntitie, Season } from "../entities";
+import { Anime as AnimeEntitie } from "../entities";
 import AnimeBrBiz from "../scraper/AnimeBrBiz";
 import { CreateSeasonService } from "./CreateSeasonService";
 import { v4 as uuidV4} from 'uuid'
