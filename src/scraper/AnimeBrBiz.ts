@@ -5,7 +5,7 @@ import { fetchOrCache } from '../ultis/fertchOrCache'
 import { Scraper } from './Scraper'
 
 const GENRE_LIST = ['acao', 'artes-marciais', 'aventura', 'comedia', 'shounen']
-const BASE_URL = process.env.ANIME_BIZ
+const BASE_URL = 'https://animesonline.cc'
 
 export default class AnimeBrBiz extends Scraper {
 

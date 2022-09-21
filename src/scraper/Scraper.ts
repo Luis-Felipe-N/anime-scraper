@@ -14,8 +14,6 @@ export class Scraper {
 
         const {linkEmbed, linkPlayer} = await extractror(data)
 
-        console.log(linkEmbed)
-
         return {linkEmbed, linkPlayer}
     }
 }

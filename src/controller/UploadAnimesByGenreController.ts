@@ -4,11 +4,11 @@ import { UploadAnimesByGenreService } from "../services/UploadAnimesByGenreServi
 
 export class UploadAnimesByGenreController {
     async handle(request: Request, response: Response) {
-        const { genre } = request.body
+        const { genre, startPage } = request.body
 
         const service = new UploadAnimesByGenreService()
 
-        const animes = await service.execute(genre)
+        const animes = await service.execute(genre, startPage)
 
         if ((animes instanceof Error)) return response.status(400).json({message: animes.message})
 

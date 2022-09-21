@@ -1,11 +1,11 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm"
 
-export class CreateGenres1663541474443 implements MigrationInterface {
+export class CreateSeasons1663680532531 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "genres",
+                name: "seasons",
                 columns: [
                     {
                         name: "id",
@@ -13,13 +13,8 @@ export class CreateGenres1663541474443 implements MigrationInterface {
                         isPrimary: true
                     },
                     {
-                        name: "name",
+                        name: "title",
                         type: "varchar"
-                    },
-                    {
-                        name: "slug",
-                        type: "varchar",
-                        isUnique: true
                     },
                     {
                         name: "anime_slug",
@@ -28,7 +23,7 @@ export class CreateGenres1663541474443 implements MigrationInterface {
                 ],
                 foreignKeys: [
                     {
-                        name: "fk_anime_genre",
+                        name: "fk_anime_season",
                         columnNames: ["anime_slug"],
                         referencedTableName: "animes",
                         referencedColumnNames: ["slug"]
@@ -39,7 +34,7 @@ export class CreateGenres1663541474443 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("genres")
+        await queryRunner.dropTable("seasons")
     }
 
 }

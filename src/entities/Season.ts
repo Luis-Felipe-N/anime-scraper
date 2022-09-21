@@ -15,7 +15,7 @@ export class Season {
     anime_slug: string
 
     @ManyToOne(() => Anime,  anime => anime.seasons)
-    @JoinColumn({name: `anime_slug`})
+    @JoinColumn({name: "anime_slug"})
     anime: Anime
 
     @OneToMany(() => Episode, episode => episode.season)

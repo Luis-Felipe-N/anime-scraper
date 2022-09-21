@@ -1,29 +1,24 @@
 import { AppDataSource } from "../database/dataSource";
-import { Episode } from "../entities";
+import { Episode, Season } from "../entities";
 
 interface IEpisodeRequest {
-    duration: number;
-    image: string;
-    linkEmbed: string;
-    linkPlayer: string;
-    season_id: string;
-    title: string;
-    uploaded_at: Date;
-    id: string;
-    // season: Season
+    season_id: string; 
+    id: string; 
+    title: string; 
+    image: string; 
+    uploaded_at: Date; 
+    linkPlayer: string; 
+    linkEmbed: string; 
+    duration: number; 
+    season: Season;
 }
 
-interface ICreateEpisodeService {
-    episodes: Episode | Episode[]
-}
 
 export class CreateEpisodeService {
-    async execute(episodes) {
+    async execute(episodes: Episode[]) {
         const repoEpisode = AppDataSource.getRepository(Episode)
 
-        
         const episodesCreated = await repoEpisode.save(episodes)
-        console.log(episodesCreated)
 
         return episodesCreated
     }

@@ -1,5 +1,5 @@
 import { AppDataSource } from "../database/dataSource";
-import { Season } from "../entities";
+import { Episode, Season } from "../entities";
 import { CreateEpisodeService } from "./CreateEpisodeService";
 import { v4 as uuidV4} from 'uuid'
 
@@ -7,35 +7,43 @@ interface ISeasonRequest {
     anime_slug: string;
     title: string;
     id: string;
+    episodes: Episode[];
 }
 
 export class CreateSeasonService {
     async execute(seasons: ISeasonRequest[]) {
         const repoSeason = AppDataSource.getRepository(Season)
         const episodeService = new CreateEpisodeService()
-        
-        if (!seasons) {
-            return new Error("Não é possível salvar Temporada inexistente")
-        }
 
-        seasons.forEach(season => console.log(season.anime_slug))
-
-        const seasonCreated = await repoSeason.save(seasons)
-
-        const seasonsEpisodes = seasonCreated.map(season => {
-            return season.episodes.map(episode => {
-                if (season.id) {
-                    return {
-                        id: uuidV4(),
-                        ...episode,
-                        season_id: season.id
-                    }
-                }
-            })
+        const seasonsFormated = seasons.map(({episodes, ...season}) => {
+            return season
         })
 
-        await episodeService.execute(seasonsEpisodes.flat())
+        try {
+            const seasonCreated = await repoSeason.save(seasonsFormated)
 
-        return seasonCreated
+            let allEpisodes = [];
+
+            seasons.forEach(seasonAnime => {
+                seasonAnime.episodes.forEach(({season, ...episode}) => {
+                    console.log(episode)
+                    if (seasonAnime && seasonAnime.id && seasonAnime.anime_slug && episode.linkEmbed && episode.linkPlayer) {
+                        allEpisodes.push({
+                            id: uuidV4(),
+                            ...episode,
+                            season_id: seasonAnime.id
+                        })
+                    }
+                })
+            })
+    
+            await episodeService.execute(allEpisodes)
+    
+            return seasonCreated
+        } catch(error) {
+            return new Error("Não foi possível salvar temporadas")
+        }
+
+
     }
 }

@@ -1,34 +1,43 @@
 import { AppDataSource } from "../database/dataSource";
-import { Anime as AnimeEntitie } from "../entities";
+import { Anime as AnimeEntitie, Season } from "../entities";
 import AnimeBrBiz from "../scraper/AnimeBrBiz";
 import { CreateSeasonService } from "./CreateSeasonService";
 import { v4 as uuidV4} from 'uuid'
+import { IAnimes } from "../@types/AnimesScraper";
 
 export class UploadAnimesByGenreService {
-    async execute(genre: string) {
+    async execute(genre: string, startPage = 1) {
         const repo = AppDataSource.getRepository(AnimeEntitie)
         const serviceSeason = new CreateSeasonService()
 
         const animeBiz = new AnimeBrBiz()
 
         try {
-            const animesScraped = await animeBiz.getAnimesByGenre(genre)
+            const animesScraped: IAnimes[] = await animeBiz.getAnimesByGenre(genre, startPage)
+            const animesFormated = animesScraped.map(({seasons, genres, ...anime}) => {
+                return anime
+            })
 
-            const animesCreated = await repo.save(animesScraped)
+            const animesCreated = await repo.save(animesFormated)
 
-            const animesSeasons = animesCreated.map(anime => {
-                return anime.seasons.map(season => {
+
+            const allSeasons = [];
+
+            animesScraped.forEach(anime => {
+                anime.seasons.forEach(({episodes, ...season}) => {
                     if (anime.slug) {
-                        return {
+                        console.log(anime.slug)
+                        allSeasons.push({
                             id: uuidV4(),
                             ...season,
-                            anime_slug: anime.slug
-                        }
+                            anime_slug: anime.slug,
+                        })
+                        
                     }
                 })
             })
 
-            await serviceSeason.execute(animesSeasons.flat())
+            await serviceSeason.execute(allSeasons)
 
             return animesCreated
         } catch (error) {
