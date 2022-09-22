@@ -1,17 +1,14 @@
 import { Router } from "express";
-import { ListAnimeBySlugController } from "../controller/ListAnimeBySlugController";
-import { ListAnimesController } from "../controller/ListAnimesController";
-import { UploadAnimesByGenreController } from "../controller/UploadAnimesByGenreController";
+import { ListAnimesController } from "../module/Anime/ListAnime/ListAnimesController";
+import { ListAnimeBySlugController } from "../module/Anime/ListAnimeBySlug/ListAnimeBySlugController";
+import { UpdateAnimesByGenreController } from "../module/Anime/UpdateAnimeByGenre/UpdateAnimesByGenreController";
 
 const animeRouter = Router()
 
 animeRouter.get('/', new ListAnimesController().handle)
 animeRouter.get('/:slug', new ListAnimeBySlugController().handle)
+animeRouter.get('/:slug/season/:id', new ListAnimesController().handle)
 
-// animeRouter.get('/genre/:genre', new ListAnimesController().handle)
-// animeRouter.get('/:slug/season/:id', new ListAnimesController().handle)
-// animeRouter.get('/:slug/season/:id/episode/:id', new ListAnimesController().handle)
-
-animeRouter.post('/upload/genre', new UploadAnimesByGenreController().handle)
+animeRouter.post('/update/genre', new UpdateAnimesByGenreController().handle)
 
 export { animeRouter }

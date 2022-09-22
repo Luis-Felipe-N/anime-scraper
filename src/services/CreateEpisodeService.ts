@@ -20,9 +20,12 @@ export class CreateEpisodeService {
     async execute(episodes: Episode[]) {
         const repoEpisode = AppDataSource.getRepository(Episode)
 
-        const episodesCreated = await repoEpisode.save(episodes)
+        try {
+            const episodesCreated = await repoEpisode.save(episodes)
 
-        return episodesCreated
+            return episodesCreated
+        } catch (error) {
+            return new Error(error.message)
+        }
     }
 }
-// luisj2felipe10@gmail.com
