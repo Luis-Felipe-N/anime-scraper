@@ -3,7 +3,7 @@ import {v4 as uuidV4} from 'uuid'
 import { Anime } from "./Anime";
 import { Episode } from "./Episode";
 
-@Entity("Seasons")
+@Entity("seasons")
 export class Season {
     @PrimaryColumn()
     id: string

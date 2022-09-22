@@ -10,7 +10,7 @@ services:
     environment:
       - POSTGRES_USER=luisnunes
       - POSTGRES_PASSWORD=user123
-      - POSTGRES_DB=animes
+      - POSTGRES_DB=animesv2
     volumes:
       - mydata:/data/mysql
   app: 

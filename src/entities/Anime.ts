@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 import { Season } from "./Season";
 
-@Entity("Animes")
+@Entity("animes")
 export class Anime {
     @PrimaryColumn()
     slug: string
@@ -9,7 +9,7 @@ export class Anime {
     @Column()
     title: string
 
-    @Column()
+    @Column("float8")
     rating: number
 
     @Column()

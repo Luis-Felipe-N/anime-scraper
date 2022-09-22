@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm"
 
-export class CreateEpisodes1663680649079 implements MigrationInterface {
+export class CreateEpisodes1663857008366 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -26,15 +26,17 @@ export class CreateEpisodes1663680649079 implements MigrationInterface {
                     },
                     {
                         name: "linkPlayer",
-                        type: "varchar"
+                        type: "varchar",
+                        isNullable: true
                     },
                     {
                         name: "linkEmbed",
-                        type: "varchar"
+                        type: "varchar",
+                        isNullable: true
                     },
                     {
                         name: "duration",
-                        type: "numeric"
+                        type: "float"
                     },
                     {
                         name: "season_id",

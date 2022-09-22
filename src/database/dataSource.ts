@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm'
-import { Anime, Episode, Genre, Season } from '../entities'
+import { Anime, Episode, Season } from '../entities'
 
 
 export const AppDataSource = new DataSource({
@@ -7,11 +7,11 @@ export const AppDataSource = new DataSource({
     port: 5432,
     username: 'luisnunes',
     password: 'user123',
-    database: 'animes',
-    entities: [Anime,Season, Episode, Genre],
+    database: 'animesv2',
+    entities: [Anime,Season, Episode],
+    migrations: ['src/database/migrations/*.ts'],
     synchronize: true,
     logging: false,
-    migrations: ['src/database/migrations/*.ts'],
 })
 
 export function createConnection(host = "database_anime"): Promise<DataSource> {

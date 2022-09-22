@@ -103,25 +103,35 @@ export default class AnimeBrBiz extends Scraper {
             const listLinksEpisodesElement = $(elemSeaons).find('.se-a .episodios li').toArray()
 
             for (const linkElem of listLinksEpisodesElement) {
-                    let linkEmbed, linkPlayer;
+                    let linkEmbed;
                 
                     const linkEpisode = $(linkElem).find('.episodiotitle a').attr('href')
 
                     if ( linkEpisode ) {
                         const links = await this.getLinkEmbed(linkEpisode, animeBizExtractor)
                         linkEmbed = links.linkEmbed
-                        linkPlayer = links.linkPlayer
-                    }
+                        const linkPlayer = new URL(links.linkPlayer)
 
-                    episodesFormated.push({
-                        title: $(linkElem).find('.episodiotitle a').text(),
-                        image: $(linkElem).find('.imagen img').attr('src'),
-                        uploaded_at: new Date($(linkElem).find('.date').text()),
-                        linkEmbed: linkEmbed,
-                        linkPlayer: linkPlayer,
-                        duration: 0,
-                    })
-                
+
+
+                        episodesFormated.push({
+                            title: $(linkElem).find('.episodiotitle a').text(),
+                            image: $(linkElem).find('.imagen img').attr('src'),
+                            uploaded_at: new Date($(linkElem).find('.date').text()),
+                            linkEmbed: linkEmbed,
+                            linkPlayer: linkPlayer.toString(),
+                            duration: Number(linkPlayer.searchParams.get('dur')),
+                        })
+                    } else {
+                        episodesFormated.push({
+                            title: $(linkElem).find('.episodiotitle a').text(),
+                            image: $(linkElem).find('.imagen img').attr('src'),
+                            uploaded_at: new Date($(linkElem).find('.date').text()),
+                            linkEmbed: linkEmbed,
+                            linkPlayer: null,
+                            duration: 0,
+                        })
+                    }                
             }
 
             seasosFormated.push({

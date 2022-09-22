@@ -2,7 +2,7 @@ import { Column, Entity, IsNull, JoinColumn, ManyToOne, PrimaryColumn } from "ty
 import {v4 as uuidV4} from 'uuid'
 import { Season } from "./Season"
 
-@Entity("Episodes")
+@Entity("episodes")
 export class Episode {
     @PrimaryColumn()
     id: string
@@ -16,13 +16,15 @@ export class Episode {
     @Column()
     uploaded_at: Date
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     linkPlayer: string
 
     @Column()
     linkEmbed: string
 
-    @Column()
+    @Column("float8")
     duration: number
 
     @Column()
