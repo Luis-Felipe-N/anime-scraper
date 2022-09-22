@@ -24,15 +24,13 @@ export class UploadAnimesByGenreService {
             const allSeasons = [];
 
             animesScraped.forEach(anime => {
-                anime.seasons.forEach(({episodes, ...season}) => {
+                anime.seasons.forEach(season => {
                     if (anime.slug) {
-                        console.log(anime.slug)
                         allSeasons.push({
                             id: uuidV4(),
                             ...season,
                             anime_slug: anime.slug,
                         })
-                        
                     }
                 })
             })

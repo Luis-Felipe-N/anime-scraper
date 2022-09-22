@@ -30,7 +30,7 @@ export class Episode {
 
     @ManyToOne(() => Season, season => season.episodes)
     @JoinColumn({ name: "season_id"})
-    season: Season
+    season?: Season
 
     constructor() {
         if(!this.id) {

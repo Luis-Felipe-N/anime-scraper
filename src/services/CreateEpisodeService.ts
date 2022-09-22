@@ -1,3 +1,5 @@
+require('dotenv').config();
+import axios from "axios";
 import { AppDataSource } from "../database/dataSource";
 import { Episode, Season } from "../entities";
 
@@ -23,3 +25,4 @@ export class CreateEpisodeService {
         return episodesCreated
     }
 }
+// luisj2felipe10@gmail.com

@@ -15,18 +15,20 @@ export class CreateSeasonService {
         const repoSeason = AppDataSource.getRepository(Season)
         const episodeService = new CreateEpisodeService()
 
+        // console.log(seasons)
         const seasonsFormated = seasons.map(({episodes, ...season}) => {
             return season
         })
 
         try {
             const seasonCreated = await repoSeason.save(seasonsFormated)
+            console.log("Tempo", seasonsFormated)
 
-            let allEpisodes = [];
+            let allEpisodes: Episode[] = [];
 
             seasons.forEach(seasonAnime => {
                 seasonAnime.episodes.forEach(({season, ...episode}) => {
-                    console.log(episode)
+                    // console.log("Episode: ", episode)
                     if (seasonAnime && seasonAnime.id && seasonAnime.anime_slug && episode.linkEmbed && episode.linkPlayer) {
                         allEpisodes.push({
                             id: uuidV4(),
@@ -36,7 +38,7 @@ export class CreateSeasonService {
                     }
                 })
             })
-    
+            console.log("HUMMMMMMMMMMMMMMMMMMMMMm")
             await episodeService.execute(allEpisodes)
     
             return seasonCreated
