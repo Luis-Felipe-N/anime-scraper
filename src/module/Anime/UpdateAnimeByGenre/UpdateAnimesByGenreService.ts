@@ -1,19 +1,26 @@
-import { AppDataSource } from "../../../database/dataSource";
-import { Anime as AnimeEntitie, Season } from "../../../entities";
-import AnimeBrBiz from "../../../scraper/AnimeBrBiz";
 import { CreateSeasonService } from "../../../services/CreateSeasonService";
-import { v4 as uuidV4} from 'uuid'
+import { CreateGenreService } from "../CreateGenre/CreateGenreService";
+import { Anime } from "../../../entities";
+import { AppDataSource } from "../../../database/dataSource";
+import AnimeBrBiz from "../../../scraper/AnimeBrBiz";
 import { IAnimes } from "../../../@types/AnimesScraper";
+import { v4 as uuidV4} from 'uuid'
 
 export class UpdateAnimesByGenreService {
     async execute(genre: string, startPage = 1) {
-        const repo = AppDataSource.getRepository(AnimeEntitie)
+        const repo = AppDataSource.getRepository(Anime)
         const serviceSeason = new CreateSeasonService()
+        const serviceGenre = new CreateGenreService()
 
         const animeBiz = new AnimeBrBiz()
 
         try {
             const animesScraped: IAnimes[] = await animeBiz.getAnimesByGenre(genre, startPage)
+
+            const animesGenresFilted = this.filterGenresFromAnimes(animesScraped)
+
+            await serviceGenre.execute(animesGenresFilted)
+            
             const animesFormated = animesScraped.map(({seasons, genres, ...anime}) => {
                 return anime
             })
@@ -41,8 +48,15 @@ export class UpdateAnimesByGenreService {
         } catch (error) {
             
             return new Error(error.message)
-        }
+        }        
+    }
 
-        
+    private filterGenresFromAnimes(animes: IAnimes[]) {
+        const animesGenres = animes.map(({genres}) => {
+            return genres
+        }).flat()
+
+        return animesGenres.filter((genre, index, self) => self.indexOf(genre) == index)
+
     }
 }

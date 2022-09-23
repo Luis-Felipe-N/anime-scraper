@@ -7,7 +7,7 @@ export class ListAnimesService {
         const repo = AppDataSource.getRepository(Anime)
 
         const animes = repo.find({
-         relations: ["seasons", "seasons.episodes"]
+         relations: ["seasons", "seasons.episodes", "genres"]
         })
 
         return animes

@@ -2,7 +2,7 @@ import { Column, Entity, IsNull, JoinColumn, ManyToOne, PrimaryColumn } from "ty
 import {v4 as uuidV4} from 'uuid'
 import { Season } from "./Season"
 
-@Entity("episodes")
+@Entity()
 export class Episode {
     @PrimaryColumn()
     id: string

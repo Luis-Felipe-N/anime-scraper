@@ -1,20 +1,14 @@
-import { Column, Entity, PrimaryColumn, Unique } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn, Unique } from "typeorm";
 import {v4 as uuidV4} from 'uuid'
+import { Anime } from "./Anime";
 
-@Entity("Genres")
+@Entity()
 export class Genre {
-    @PrimaryColumn()
-    id: string
 
     @Column()
     name: string
 
-    @Column()
+    @PrimaryColumn()
+    @Unique()
     slug: string
-
-    constructor() {
-        if(!this.id) {
-            this.id = uuidV4()
-        }
-    }
 }

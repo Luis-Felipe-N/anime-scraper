@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, ManyToMany, JoinTable } from "typeorm";
 import { Season } from "./Season";
+import { Genre } from "./Genre";
 
-@Entity("animes")
+@Entity()
 export class Anime {
     @PrimaryColumn()
     slug: string
@@ -21,4 +22,8 @@ export class Anime {
     @OneToMany(() => Season, season => season.anime)
     @JoinColumn()
     seasons: Season[]
+
+    @ManyToMany(() => Genre)
+    @JoinTable()
+    genres: Genre[]
 }

@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm'
-import { Anime, Episode, Season } from '../entities'
+import { Anime, Episode, Genre, Season } from '../entities'
 
 
 export const AppDataSource = new DataSource({
@@ -8,7 +8,7 @@ export const AppDataSource = new DataSource({
     username: 'luisnunes',
     password: 'user123',
     database: 'animesv2',
-    entities: [Anime,Season, Episode],
+    entities: [Anime,Season, Episode, Genre],
     migrations: ['src/database/migrations/*.ts'],
     synchronize: true,
     logging: false,
