@@ -23,7 +23,7 @@ export class Anime {
     @JoinColumn()
     seasons: Season[]
 
-    @ManyToMany(() => Genre)
+    @ManyToMany(() => Genre, genre => genre.animes)
     @JoinTable()
     genres: Genre[]
 }

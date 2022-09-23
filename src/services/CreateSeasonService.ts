@@ -6,8 +6,8 @@ import { v4 as uuidV4} from 'uuid'
 interface ISeasonRequest {
     anime_slug: string;
     title: string;
-    id: string;
     episodes: Episode[];
+    id?: string;
 }
 
 export class CreateSeasonService {
@@ -15,30 +15,25 @@ export class CreateSeasonService {
         const repoSeason = AppDataSource.getRepository(Season)
         const episodeService = new CreateEpisodeService()
 
-        // console.log(seasons)
         const seasonsFormated = seasons.map(({episodes, ...season}) => {
             return season
         })
 
         try {
             const seasonCreated = await repoSeason.save(seasonsFormated)
-            console.log("Tempo", seasonsFormated)
 
             let allEpisodes: Episode[] = [];
 
             seasons.forEach(seasonAnime => {
                 seasonAnime.episodes.forEach(({season, ...episode}) => {
-                    // console.log("Episode: ", episode)
-                    if (seasonAnime && seasonAnime.id && seasonAnime.anime_slug && episode.linkEmbed && episode.linkPlayer) {
+                    if (seasonAnime.anime_slug && episode.linkEmbed) {
                         allEpisodes.push({
-                            id: uuidV4(),
                             ...episode,
                             season_id: seasonAnime.id
                         })
                     }
                 })
             })
-            console.log("HUMMMMMMMMMMMMMMMMMMMMMm")
             await episodeService.execute(allEpisodes)
     
             return seasonCreated

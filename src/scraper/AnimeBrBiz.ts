@@ -2,6 +2,7 @@ import * as cheerio from 'cheerio'
 import { IAnimes, IEpisodesAnime, ISeasonsAnime } from '../@types/AnimesScraper'
 import { animeBizExtractor } from '../extractors/animebiz'
 import { fetchOrCache } from '../ultis/fertchOrCache'
+import { slugify } from '../ultis/slugify'
 import { Scraper } from './Scraper'
 
 const GENRE_LIST = ['acao', 'artes-marciais', 'aventura', 'comedia', 'shounen']
@@ -26,12 +27,14 @@ export default class AnimeBrBiz extends Scraper {
 
         let hasNextPage = true
         let numberPage = startPage
-        do {
-            const url = baseURLGenre + `/page/` + numberPage
+
+        for (let index = 0; index < 9999999; index++) {
+            const url = baseURLGenre + `/page/` + (numberPage + index)
+            console.log(url)
             const data = await fetchOrCache(url)
             
             if (!data) {                            
-                if (numberPage == startPage) {
+                if (index < 1) {
                     throw new Error(`Gênero ${genre} não encontrado`);
                 }
 
@@ -47,10 +50,8 @@ export default class AnimeBrBiz extends Scraper {
                 const animeByGenre = await this.getAnimeBySlug(elem)
 
                 animesResult.push(animeByGenre)
-            }
-
-            numberPage += 1
-        } while (hasNextPage);
+            }            
+        };
 
         return animesResult
     }
@@ -68,14 +69,14 @@ export default class AnimeBrBiz extends Scraper {
 
         if (!pageAnime) return
 
-        const seasonsAnime: ISeasonsAnime[] = await this.getSeasonsByAnimeSlug(pageAnime)
+        const seasonsAnime: ISeasonsAnime[] = await this.getSeasonsByAnimeSlug(pageAnime, animeSlug)
         const infosAnime = this.getInfoAnimeBySlug(pageAnime)
 
         const animeByGenre: IAnimes = {
             title,
             slug: animeSlug,
             cover,
-            rating: Math.round(Number(rating)),
+            rating: Number(rating),
             seasons: seasonsAnime,
             ...infosAnime
         }
@@ -90,7 +91,7 @@ export default class AnimeBrBiz extends Scraper {
         return data
     }
 
-    async getSeasonsByAnimeSlug(pageAnime: string){
+    async getSeasonsByAnimeSlug(pageAnime: string, animeSlug: string){
         let episodesFormated: IEpisodesAnime[] = [];
         let seasosFormated: ISeasonsAnime[] = [];
 
@@ -100,31 +101,33 @@ export default class AnimeBrBiz extends Scraper {
         for (const elemSeaons of seaseons){          
             const title = $(elemSeaons).find('.se-q .title').text()
 
+            const seasonId = slugify(title.concat(animeSlug))
+
             const listLinksEpisodesElement = $(elemSeaons).find('.se-a .episodios li').toArray()
 
             for (const linkElem of listLinksEpisodesElement) {
                     let linkEmbed;
                 
                     const linkEpisode = $(linkElem).find('.episodiotitle a').attr('href')
+                    const titleEpisode = $(linkElem).find('.episodiotitle a').text()
+                    const idEpisode = slugify(titleEpisode.concat('-', seasonId))
 
                     if ( linkEpisode ) {
-                        const links = await this.getLinkEmbed(linkEpisode, animeBizExtractor)
-                        linkEmbed = links.linkEmbed
-                        const linkPlayer = new URL(links.linkPlayer)
-
-
+                        let { linkEmbed, linkPlayer } = await this.getLinkEmbed(linkEpisode, animeBizExtractor)
 
                         episodesFormated.push({
-                            title: $(linkElem).find('.episodiotitle a').text(),
+                            id: idEpisode,
+                            title: titleEpisode,
                             image: $(linkElem).find('.imagen img').attr('src'),
                             uploaded_at: new Date($(linkElem).find('.date').text()),
                             linkEmbed: linkEmbed,
-                            linkPlayer: linkPlayer.toString(),
-                            duration: Number(linkPlayer.searchParams.get('dur')),
+                            linkPlayer: linkPlayer,
+                            duration: linkPlayer ? Number(new URL(linkPlayer).searchParams.get('dur')) : 0,
                         })
                     } else {
                         episodesFormated.push({
-                            title: $(linkElem).find('.episodiotitle a').text(),
+                            id: idEpisode,
+                            title: titleEpisode,
                             image: $(linkElem).find('.imagen img').attr('src'),
                             uploaded_at: new Date($(linkElem).find('.date').text()),
                             linkEmbed: linkEmbed,
@@ -135,6 +138,7 @@ export default class AnimeBrBiz extends Scraper {
             }
 
             seasosFormated.push({
+                id: seasonId,
                 title,
                 episodes: episodesFormated
             })

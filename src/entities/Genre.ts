@@ -6,9 +6,14 @@ import { Anime } from "./Anime";
 export class Genre {
 
     @Column()
-    name: string
+    name: string;
 
-    @PrimaryColumn()
-    @Unique()
-    slug: string
+    @PrimaryColumn({
+        unique: true
+    })
+    slug: string;
+
+    @ManyToMany(() => Anime, anime => anime.seasons)
+    @JoinTable()
+    animes: Anime[]
 }

@@ -7,7 +7,7 @@ export class UpdateAnimesByGenreController {
 
         const service = new UpdateAnimesByGenreService()
 
-        const animes = await service.execute(genre, startPage)
+        const animes = await service.execute(genre, startPage ? Number(startPage) : 1)
 
         if ((animes instanceof Error)) return response.status(400).json({message: animes.message})
 

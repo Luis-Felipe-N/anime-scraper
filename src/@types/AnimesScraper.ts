@@ -1,3 +1,8 @@
+export interface IGenres {
+    name: string;
+    slug: string;
+}
+
 export interface IEpisodesAnime {
     id?: string;
     title: string;
@@ -10,17 +15,14 @@ export interface IEpisodesAnime {
 }
 
 export interface ISeasonsAnime {
+    id: string;
     title: string;
     episodes: IEpisodesAnime[];
 }
 
 export interface IAnimes {
     seasons: ISeasonsAnime[];
-    genres: {
-        name: string;
-        slug: string;
-    }[];
-
+    genres: IGenres[];
     slug: string;
     title: string;
     rating: number;
