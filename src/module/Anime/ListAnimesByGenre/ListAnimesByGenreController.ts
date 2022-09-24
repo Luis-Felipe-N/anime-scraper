@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ListAnimesByGenreService } from "../ListSeason/ListAnimesByGenreService";
+import { ListAnimesByGenreService } from "./ListAnimesByGenreService";
 
 export class ListAnimesByGenreController {
     async handle(request: Request, response: Response)  {

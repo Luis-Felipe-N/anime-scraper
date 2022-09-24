@@ -12,7 +12,7 @@ export class CreateGenreService {
 
         try {
             const genresCreated = await repo.save(genres)
-            return genres
+            return genresCreated
         } catch (error) {
             return new Error(error.message)
         }

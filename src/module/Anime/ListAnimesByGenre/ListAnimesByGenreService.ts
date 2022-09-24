@@ -6,7 +6,7 @@ export class ListAnimesByGenreService {
         const repo = AppDataSource.getRepository(Anime) 
 
         const animes = await repo.find({
-            where: {genres: genre}
+            
         })
     }
 }

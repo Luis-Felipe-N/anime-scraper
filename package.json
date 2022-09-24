@@ -8,7 +8,8 @@
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn ./src/main.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "migrate": "ts-node-dev ./node_modules/typeorm/cli.js migration:run -d src/database/dataSource",
-    "revert": "npx typeorm-ts-node-commonjs migration:revert -d src/database/dataSource"
+    "revert": "npx typeorm-ts-node-commonjs migration:revert -d src/database/dataSource",
+    "start": "node dist/main.js"
   },
   "keywords": [],
   "author": "",

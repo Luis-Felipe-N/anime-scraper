@@ -1,5 +1,4 @@
-import { Column, Entity, IsNull, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm"
-import {v4 as uuidV4} from 'uuid'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm"
 import { Season } from "./Season"
 
 @Entity()
@@ -33,10 +32,4 @@ export class Episode {
     @ManyToOne(() => Season, season => season.episodes)
     @JoinColumn({ name: "season_id"})
     season?: Season
-
-    constructor() {
-        if(!this.id) {
-            this.id = uuidV4()
-        }
-    }
 }

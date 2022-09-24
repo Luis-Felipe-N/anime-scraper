@@ -1,5 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn, Unique } from "typeorm";
-import {v4 as uuidV4} from 'uuid'
+import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from "typeorm";
 import { Anime } from "./Anime";
 
 @Entity()
