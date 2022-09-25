@@ -14,6 +14,6 @@ export const AppDataSource = new DataSource({
     logging: false,
 })
 
-export function createConnection(host = "database_anime"): Promise<DataSource> {
+export function createConnection(host = "localhost"): Promise<DataSource> {
     return AppDataSource.setOptions({ host }).initialize();
   }
