@@ -1,3 +1,4 @@
+import axios from 'axios'
 import * as cheerio from 'cheerio'
 import { IAnimes, IEpisodesAnime, ISeasonsAnime } from '../@types/AnimesScraper'
 import { animeBizExtractor } from '../extractors/animebiz'
@@ -60,10 +61,14 @@ export default class AnimeBrBiz extends Scraper {
 
         const $ = cheerio.load(html)
 
-        const cover = $('img').attr('src')
+        const post = $('img').attr('src')
         const rating = $('.rating').text()
         const title = $('.data a').text()
         const animeSlug = $('.data a').attr('href')!.split('/').slice(4, 5)[0]
+
+        const moreInfos = await this.getMoreInfosFromKitsuAPI(animeSlug)
+        
+
 
         const pageAnime = await this.getPageAnimeBySlug(animeSlug)
 
@@ -75,7 +80,7 @@ export default class AnimeBrBiz extends Scraper {
         const animeByGenre: IAnimes = {
             title,
             slug: animeSlug,
-            cover,
+            post,
             rating: Number(rating),
             seasons: seasonsAnime,
             ...infosAnime
@@ -165,5 +170,11 @@ export default class AnimeBrBiz extends Scraper {
             description,
             genres
         }
+    }
+
+    async getMoreInfosFromKitsuAPI(title: string) {
+        const { data } = await axios.get(`https://kitsu.io/api/edge/anime?filter[slug]=${title}?page[limit]=1`)
+
+        console.log(data)
     }
 }

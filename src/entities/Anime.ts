@@ -17,7 +17,17 @@ export class Anime {
     description: string
 
     @Column()
+    post: string
+
+    @Column({
+        nullable: true
+    })
     cover: string
+
+    @Column({
+        nullable: true
+    })
+    trailerYtId: string
 
     @OneToMany(() => Season, season => season.anime)
     @JoinColumn()
