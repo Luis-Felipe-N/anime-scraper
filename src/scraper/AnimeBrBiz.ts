@@ -1,3 +1,4 @@
+import axios from 'axios'
 import * as cheerio from 'cheerio'
 import { IAnimes, IEpisodesAnime, ISeasonsAnime } from '../@types/AnimesScraper'
 import { animeBizExtractor } from '../extractors/animebiz'
@@ -7,6 +8,13 @@ import { Scraper } from './Scraper'
 
 const GENRE_LIST = ['acao', 'artes-marciais', 'aventura', 'comedia', 'shounen']
 const BASE_URL = 'https://animesonline.cc'
+
+interface IMoreInfos {
+    status?: string,
+    youtubeVideoId?: string,
+    cover?: string,
+    post?: string
+}
 
 export default class AnimeBrBiz extends Scraper {
 
@@ -25,7 +33,6 @@ export default class AnimeBrBiz extends Scraper {
         let animesResult: IAnimes[] = []
         const baseURLGenre = `${BASE_URL}/genero/${genre}`
 
-        let hasNextPage = true
         let numberPage = startPage
 
         for (let index = 0; index < 9999999; index++) {
@@ -38,7 +45,6 @@ export default class AnimeBrBiz extends Scraper {
                     throw new Error(`Gênero ${genre} não encontrado`);
                 }
 
-                hasNextPage = false
                 return animesResult
             }
             
@@ -69,8 +75,10 @@ export default class AnimeBrBiz extends Scraper {
 
         if (!pageAnime) return
 
+        const moreInfosAnime = await this.getMoreInfoFromKitsu(animeSlug)
+        
         const seasonsAnime: ISeasonsAnime[] = await this.getSeasonsByAnimeSlug(pageAnime, animeSlug)
-        const infosAnime = this.getInfoAnimeBySlug(pageAnime)
+        const descriptionAndGenresAnime = this.getInfoAnimeBySlug(pageAnime)
 
         const animeByGenre: IAnimes = {
             title,
@@ -78,7 +86,8 @@ export default class AnimeBrBiz extends Scraper {
             cover,
             rating: Number(rating),
             seasons: seasonsAnime,
-            ...infosAnime
+            ...descriptionAndGenresAnime,
+            ...moreInfosAnime
         }
 
         return animeByGenre
@@ -166,4 +175,24 @@ export default class AnimeBrBiz extends Scraper {
             genres
         }
     }
+
+    async getMoreInfoFromKitsu(slug: string): Promise<IMoreInfos | undefined> {
+        const { data } = await axios.get(`https://kitsu.io/api/edge/anime?filter[slug]=${slug}&page[limit]=1`)
+
+        const dataAnime = data.data[0]?.attributes
+
+        if (!dataAnime) {
+            return 
+        }
+
+        const moreInfoAnime = {
+            status: dataAnime.status,
+            youtubeVideoId: dataAnime?.youtubeVideoId,
+            cover: dataAnime.coverImage?.original,
+            post: dataAnime.posterImage?.original
+        }
+
+        return moreInfoAnime
+    }
 }
+
