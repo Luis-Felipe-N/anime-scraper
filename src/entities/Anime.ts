@@ -16,8 +16,23 @@ export class Anime {
     @Column()
     description: string
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     cover: string
+
+    @Column()
+    post: string
+
+    @Column({
+        nullable: true
+    })
+    youtubeVideoId: string
+
+    @Column({
+        nullable: true
+    })
+    status: string
 
     @OneToMany(() => Season, season => season.anime)
     @JoinColumn()

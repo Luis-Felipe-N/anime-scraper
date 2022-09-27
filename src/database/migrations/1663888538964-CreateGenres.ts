@@ -5,7 +5,7 @@ export class CreateGenres1663888538964 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "animes",
+                name: "genres",
                 columns: [
                     {
                         name: "slug",
