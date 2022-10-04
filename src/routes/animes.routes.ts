@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { ListAnimesController } from "../module/Anime/ListAnime/ListAnimesController";
 import { ListAnimeBySlugController } from "../module/Anime/ListAnimeBySlug/ListAnimeBySlugController";
+import { ListEpisodeController } from "../module/Anime/ListEpisode/ListEpisodeController";
 import { ListEpisodesByController } from "../module/Anime/ListEpisodesBySeason/ListEpisodesByController";
 import { ListSeasonByIdController } from "../module/Anime/ListSeason/ListSeasonByIdController";
 import { ListSeasonsByAnimeController } from "../module/Anime/ListSeasonsByAnime/ListSeasonsByAnimeController";
@@ -13,7 +14,7 @@ animeRouter.get('/:slug', new ListAnimeBySlugController().handle) // OK
 animeRouter.get('/:slug/seasons/', new ListSeasonsByAnimeController().handle) // OK
 animeRouter.get('/season/:seasonId', new ListSeasonByIdController().handle) // OK
 animeRouter.get('/season/:seasonId/episodes/', new ListEpisodesByController().handle) // OK
-animeRouter.get('/episode/:id', new ListAnimesController().handle)
+animeRouter.get('/episode/:id', new ListEpisodeController().handle) // OK
 
 
 animeRouter.post('/update/genre', new UpdateAnimesByGenreController().handle)

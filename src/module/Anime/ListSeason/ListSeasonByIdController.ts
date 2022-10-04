@@ -13,6 +13,6 @@ export class ListSeasonByIdController {
 
         if (season instanceof Error) return response.status(400).json({message: season.message})
 
-        return response.status(400).json({season})
+        return response.status(200).json({season})
     }
 }

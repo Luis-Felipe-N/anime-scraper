@@ -7,7 +7,7 @@ export class ListAnimeBySlugService {
 
         const anime = await repo.findOne({
             where: {slug},
-            relations: ["seasons", "seasons.episodes", "genres"]
+            relations: ["seasons", "genres"]
         })
 
         if(!anime) return new Error("Anime não foi encontrado")
