@@ -66,7 +66,7 @@ export default class AnimeBrBiz extends Scraper {
 
         const $ = cheerio.load(html)
 
-        const cover = $('img').attr('src')
+        const post = $('img').attr('src')
         const rating = $('.rating').text()
         const title = $('.data a').text()
         const animeSlug = $('.data a').attr('href')!.split('/').slice(4, 5)[0]
@@ -83,7 +83,7 @@ export default class AnimeBrBiz extends Scraper {
         const animeByGenre: IAnimes = {
             title,
             slug: animeSlug,
-            cover,
+            post,
             rating: Number(rating),
             seasons: seasonsAnime,
             ...descriptionAndGenresAnime,

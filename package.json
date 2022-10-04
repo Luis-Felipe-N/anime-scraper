@@ -8,6 +8,7 @@
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn ./src/main.ts",
     "migrate": "ts-node-dev ./node_modules/typeorm/cli.js migration:run -d src/database/dataSource",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
+    "migrate": "ts-node-dev ./node_modules/typeorm/cli.js migration:run -d src/database/dataSource",
     "start": "node dist/main.js"
   },
   "keywords": [],

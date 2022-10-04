@@ -27,5 +27,7 @@ export interface IAnimes {
     title: string;
     rating: number;
     description: string;
-    cover: string;
+    cover?: string;
+    post: string;
+    trailerYtId?: string;
 }
