@@ -4,12 +4,12 @@ import { Anime } from "../../../entities";
 
 export class ListAnimesService {
    async execute(): Promise<Anime[]> { 
-        const repo = AppDataSource.getRepository(Anime)
+         const repo = AppDataSource.getRepository(Anime)
 
-        const animes = repo.find({
+         const animes = repo.find({
          relations: ["seasons", "genres"]
-        })
+         })
 
-        return animes
+         return animes
    }
 }

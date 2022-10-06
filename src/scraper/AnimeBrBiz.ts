@@ -122,16 +122,16 @@ export default class AnimeBrBiz extends Scraper {
                     const idEpisode = slugify(titleEpisode.concat('-', seasonId))
 
                     if ( linkEpisode ) {
-                        let { linkEmbed, linkPlayer } = await this.getLinkEmbed(linkEpisode, animeBizExtractor)
+                        let links = await this.getLinkEmbed(linkEpisode, animeBizExtractor)
 
                         episodesFormated.push({
                             id: idEpisode,
                             title: titleEpisode,
                             image: $(linkElem).find('.imagen img').attr('src'),
                             uploaded_at: new Date($(linkElem).find('.date').text()),
-                            linkEmbed: linkEmbed,
-                            linkPlayer: linkPlayer,
-                            duration: linkPlayer ? Number(new URL(linkPlayer).searchParams.get('dur')) : 0,
+                            linkEmbed: links?.linkEmbed || linkEmbed,
+                            linkPlayer: links?.linkPlayer,
+                            duration: links?.linkPlayer ? Number(new URL(links?.linkPlayer).searchParams.get('dur')) : 0,
                         })
                     } else {
                         episodesFormated.push({
