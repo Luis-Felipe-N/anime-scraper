@@ -29,35 +29,32 @@ export default class AnimeBrBiz extends Scraper {
         return allAnimes
     }
 
-    async getAnimesByGenre(genre: string, startPage = 1) {
+    async getAnimesByGenre(genre: string, numberPage = 1) {
         let animesResult: IAnimes[] = []
         const baseURLGenre = `${BASE_URL}/genero/${genre}`
 
-        let numberPage = startPage
+        const url = baseURLGenre + `/page/` + (numberPage)
+        
+        const data = await fetchOrCache(url)
 
-        for (let index = 0; index < 9999999; index++) {
-            const url = baseURLGenre + `/page/` + (numberPage + index)
-            console.log(url)
-            const data = await fetchOrCache(url)
             
-            if (!data) {                            
-                if (index < 1) {
-                    throw new Error(`Gênero ${genre} não encontrado`);
-                }
-
-                return animesResult
+        if (!data) {                            
+            if (numberPage == 1) {
+                throw new Error(`Gênero ${genre} não encontrado`);
             }
-            
-            const $ = cheerio.load(data)
 
-            const pagesAnime = $('.items article').toArray()
+            return animesResult
+        }
+        
+        const $ = cheerio.load(data)
 
-            for (const elem of pagesAnime) {
-                const animeByGenre = await this.getAnimeBySlug(elem)
+        const pagesAnime = $('.items article').toArray()
 
-                animesResult.push(animeByGenre)
-            }            
-        };
+        for (const elem of pagesAnime) {
+            const animeByGenre = await this.getAnimeBySlug(elem)
+
+            animesResult.push(animeByGenre)
+        }            
 
         return animesResult
     }
