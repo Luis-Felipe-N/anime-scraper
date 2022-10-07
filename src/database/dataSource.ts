@@ -8,6 +8,7 @@ export const AppDataSource = new DataSource({
     username: 'luisnunes',
     password: 'user123',
     database: 'animesv3',
+
     entities: [Anime,Season, Episode, Genre],
     migrations: ['src/database/migrations/*.ts'],
     synchronize: true,

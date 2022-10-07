@@ -2,6 +2,7 @@ import { Router } from "express";
 import { ListAnimesController } from "../module/Anime/ListAnime/ListAnimesController";
 import { ListAnimeBySlugController } from "../module/Anime/ListAnimeBySlug/ListAnimeBySlugController";
 import { ListAnimePopularController } from "../module/Anime/ListAnimePopular/ListAnimePopularController";
+import { ListAnimesByGenreController } from "../module/Anime/ListAnimesByGenre/ListAnimesByGenreController";
 import { ListEpisodeController } from "../module/Anime/ListEpisode/ListEpisodeController";
 import { ListEpisodesByController } from "../module/Anime/ListEpisodesBySeason/ListEpisodesByController";
 import { ListSeasonByIdController } from "../module/Anime/ListSeason/ListSeasonByIdController";
@@ -12,6 +13,7 @@ const animeRouter = Router()
 
 animeRouter.get('/', new ListAnimesController().handle) // OK
 animeRouter.get('/popular', new ListAnimePopularController().handle) // OK
+animeRouter.get('/genre/:genreSlug', new ListAnimesByGenreController().handle) // OK
 animeRouter.get('/:slug', new ListAnimeBySlugController().handle) // OK
 animeRouter.get('/:slug/seasons/', new ListSeasonsByAnimeController().handle) // OK
 animeRouter.get('/season/:seasonId', new ListSeasonByIdController().handle) // OK
