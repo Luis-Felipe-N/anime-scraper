@@ -3,16 +3,17 @@ import { ListAnimesByGenreService } from "./ListAnimesByGenreService";
 
 export class ListAnimesByGenreController {
     async handle(request: Request, response: Response)  {
-        const { genreSlug } = request.body
+        const { genreSlug } = request.params
 
         if (!genreSlug) response.status(400).json({message: "Gênero não informado"})
 
         const serviceAnime = new ListAnimesByGenreService()
 
-        const animes = serviceAnime.execute(genreSlug)
+        const animes = await serviceAnime.execute(genreSlug)
+
+        console.log(animes)
 
         if (animes instanceof Error) return response.status(400).json({
-            status: 404,
             message: animes.message
         })
 

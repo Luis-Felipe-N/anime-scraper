@@ -17,6 +17,6 @@ export class ListAnimePopularService {
             relations: ["genres"]
         })
 
-         return animes
+        return animes
     }
 }

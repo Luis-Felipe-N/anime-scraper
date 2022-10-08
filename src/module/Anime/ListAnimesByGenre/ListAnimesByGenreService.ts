@@ -8,10 +8,12 @@ export class ListAnimesByGenreService {
         const animes = await repo.find({
             where: {
                 genres: {
-                    slug: genre
+                    name : genre
                 }
             }
         })
+
+        console.log(animes)
 
         if (!animes) return new Error(`Não há animes do gênero, ${genre}`)
 
