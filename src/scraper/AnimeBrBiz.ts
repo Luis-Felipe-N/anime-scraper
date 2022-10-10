@@ -1,5 +1,6 @@
 import axios from 'axios'
 import * as cheerio from 'cheerio'
+import { json } from 'stream/consumers'
 import { IAnimes, IEpisodesAnime, ISeasonsAnime } from '../@types/AnimesScraper'
 import { animeBizExtractor } from '../extractors/animebiz'
 import { fetchOrCache } from '../ultis/fertchOrCache'
@@ -103,12 +104,13 @@ export default class AnimeBrBiz extends Scraper {
 
         const $ = cheerio.load(pageAnime)
         const seaseons = $('.content .tempep #seasons .se-c').toArray()
+
         
         for (const elemSeaons of seaseons){          
             const title = $(elemSeaons).find('.se-q .title').text()
-
+            
             const seasonId = slugify(title.concat(animeSlug))
-
+            console.log(seasonId)
             const listLinksEpisodesElement = $(elemSeaons).find('.se-a .episodios li').toArray()
 
             for (const linkElem of listLinksEpisodesElement) {
@@ -116,7 +118,10 @@ export default class AnimeBrBiz extends Scraper {
                 
                     const linkEpisode = $(linkElem).find('.episodiotitle a').attr('href')
                     const titleEpisode = $(linkElem).find('.episodiotitle a').text()
+                    // console.log(titleEpisode)
                     const idEpisode = slugify(titleEpisode.concat('-', seasonId))
+
+                    // console.log(idEpisode)
 
                     if ( linkEpisode ) {
                         let links = await this.getLinkEmbed(linkEpisode, animeBizExtractor)
@@ -149,6 +154,8 @@ export default class AnimeBrBiz extends Scraper {
                 episodes: episodesFormated
             })
         }
+
+        console.log(JSON.stringify(seasosFormated))
 
         return seasosFormated
     }

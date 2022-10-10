@@ -23,11 +23,8 @@ export class CreateEpisodeService {
         const repoEpisode = AppDataSource.getRepository(Episode)
 
         try {
-            // const episodeteste = episodes[0]
-
-            // await this.downloadFile(episodeteste.linkPlayer, 'download', episodeteste.id)
             const episodesCreated = await repoEpisode.save(episodes)
-
+            
             return episodesCreated
         } catch (error) {
             return new Error(error.message)

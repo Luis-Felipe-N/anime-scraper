@@ -15,6 +15,7 @@ export class UpdateAnimesByGenreService {
         const animeBiz = new AnimeBrBiz()
 
         try {
+            // TODO criar sistema para salvar várias páginas do animes
             const animesScraped: IAnimes[] = await animeBiz.getAnimesByGenre(genre, startPage)
 
             const animesGenresFilted = this.filterGenresFromAnimes(animesScraped)
