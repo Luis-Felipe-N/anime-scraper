@@ -118,14 +118,14 @@ export default class AnimeBrBiz extends Scraper {
                 
                     const linkEpisode = $(linkElem).find('.episodiotitle a').attr('href')
                     const titleEpisode = $(linkElem).find('.episodiotitle a').text()
-                    // console.log(titleEpisode)
+                    
                     const idEpisode = slugify(titleEpisode.concat('-', seasonId))
 
-                    // console.log(idEpisode)
-
+                    // TODO consertar error de EpisodioId duplicado
                     if ( linkEpisode ) {
                         let links = await this.getLinkEmbed(linkEpisode, animeBizExtractor)
 
+                        // TODO Melhorar forma de formatação do episodio
                         episodesFormated.push({
                             id: idEpisode,
                             title: titleEpisode,
