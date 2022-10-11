@@ -9,7 +9,7 @@ export class Scraper {
         const data = await fetchOrCache(url)
 
         if (!data) {
-            return
+            return 
         }
 
         const {linkEmbed, linkPlayer} = await extractror(data)

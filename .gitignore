@@ -7,3 +7,6 @@ dist/
 
 .env.local
 .env
+
+docker-compose.yml
+src/database/dataSource.ts
