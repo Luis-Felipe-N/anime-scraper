@@ -18,7 +18,7 @@ animeRouter.get('/:slug', new ListAnimeBySlugController().handle) // OK
 animeRouter.get('/:slug/seasons/', new ListSeasonsByAnimeController().handle) // OK
 animeRouter.get('/season/:seasonId', new ListSeasonByIdController().handle) // OK
 animeRouter.get('/season/:seasonId/episodes/', new ListEpisodesByController().handle) // OK
-animeRouter.get('/episode/:id', new ListEpisodeController().handle) // OK
+animeRouter.get('/episode/:episodeId', new ListEpisodeController().handle) // OK
 
 
 animeRouter.post('/update/genre', new UpdateAnimesByGenreController().handle)

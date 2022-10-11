@@ -9,11 +9,13 @@ export class ListEpisodeService {
         const episode = await repo.findOneBy({
             id: episodeId
         })
+        console.log(episode)
         
         if (!episode) return new Error("Episodio não encontrado")
         
         const episodeBySeasonService = new ListEpisodesBySeason()
         const remainingEpisodes = await episodeBySeasonService.execute(episode.season_id)
+        console.log(remainingEpisodes)
 
         return {
             episode,
