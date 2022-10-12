@@ -120,31 +120,32 @@ export default class AnimeBrBiz extends Scraper {
                 
                 const episodeId = slugify(titleEpisode.concat('-', seasonId, '-', String(Date.parse(uploadedAt))))
                
-                // TODO consertar error de EpisodioId duplicado
                 const links = await this.getLinkEmbed(linkEpisode, animeBizExtractor)
 
                 if (!links) return
-                
-                episodesFormated.push({
-                    id: episodeId,
-                    title: titleEpisode,
-                    image: $(linkElem).find('.imagen img').attr('src'),
-                    uploaded_at: new Date(uploadedAt),
-                    linkEmbed: links.linkEmbed || null,
-                    linkPlayer: links?.linkPlayer || null,
-                    duration: links?.linkPlayer ? Number(new URL(links?.linkPlayer).searchParams.get('dur')) : 0,
-                })
+
+                if (!episodesFormated.find(episode => episode.id == episodeId)) {
+                    episodesFormated.push({
+                        id: episodeId,
+                        title: titleEpisode,
+                        image: $(linkElem).find('.imagen img').attr('src'),
+                        uploaded_at: new Date(uploadedAt),
+                        linkEmbed: links.linkEmbed || null,
+                        linkPlayer: links?.linkPlayer || null,
+                        duration: links?.linkPlayer ? Number(new URL(links?.linkPlayer).searchParams.get('dur')) : 0,
+                    })
+                }
             }
 
             episodesFormated.forEach(ep => console.log(ep.id))
 
-
-
-            seasosFormated.push({
-                id: seasonId,
-                title,
-                episodes: episodesFormated
-            })
+            if (!seasosFormated.find(season => season.id === seasonId)) {
+                seasosFormated.push({
+                    id: seasonId,
+                    title,
+                    episodes: episodesFormated
+                })
+            }
         }
 
         return seasosFormated
