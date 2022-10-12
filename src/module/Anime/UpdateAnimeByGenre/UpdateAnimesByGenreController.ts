@@ -4,13 +4,26 @@ import { UpdateAnimesByGenreService } from "./UpdateAnimesByGenreService";
 export class UpdateAnimesByGenreController {
     async handle(request: Request, response: Response) {
         const { genre, startPage } = request.body
+        let pageInit = startPage ? Number(startPage) : 1
+        const animesUpdated = []
 
-        const service = new UpdateAnimesByGenreService()
+        while (true) {
+            const service = new UpdateAnimesByGenreService()
 
-        const animes = await service.execute(genre, startPage ? Number(startPage) : 1)
+            const animes = await service.execute(genre, pageInit)
 
-        if ((animes instanceof Error)) return response.status(400).json({message: animes.message})
+            if ((animes instanceof Error)) {
+                return response.status(400).json({
+                    message: animes.message,
+                    animesUpdate: animesUpdated
+                })
+            } 
 
-        return response.status(200).json(animes)
+            if (!animes) return response.status(200).json(animesUpdated)
+
+            pageInit++
+        }
+
+       
     }
 }

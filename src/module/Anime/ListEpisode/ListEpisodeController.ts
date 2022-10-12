@@ -11,8 +11,6 @@ export class ListEpisodeController {
 
         const episode = await episodeService.execute(episodeId)
 
-        console.log(episode)
-
         return response.status(200).json({
             ...episode
         })
