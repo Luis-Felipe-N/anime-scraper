@@ -3,10 +3,12 @@ import { ListAnimesService } from "./ListAnimesService";
 
 export class ListAnimesController {
     async handle(request: Request, response: Response) {
+        const {query} = request
+        console.log(query)
         const service = new ListAnimesService()
 
-        const animes = await service.execute()
+        const animesQs = await service.execute(query)
 
-        response.status(200).json({animes})
+        response.status(200).json({...animesQs})
     }
 }

@@ -10,6 +10,9 @@ export class ListAnimesByGenreService {
                 genres: {
                     name : genre
                 }
+            },
+            order: {
+                rating: "DESC"
             }
         })
 
