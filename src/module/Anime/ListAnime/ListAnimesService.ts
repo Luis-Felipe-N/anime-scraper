@@ -1,4 +1,4 @@
-import { ILike, Like } from "typeorm";
+import { ILike } from "typeorm";
 import { AppDataSource } from "../../../database/dataSource";
 import { Anime } from "../../../entities";
 
@@ -9,7 +9,7 @@ export class ListAnimesService {
 
          const [ animes, totalAnimes ] = await repo.findAndCount({
             relations: ["seasons", "genres"],
-            skip: query?.page || 0, 
+            skip: query?.skip || 0, 
             take: query?.take || 10,
             where: {
                title: ILike(`%${query?.keyword}%`)
