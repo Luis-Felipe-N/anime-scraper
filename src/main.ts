@@ -13,4 +13,4 @@ app.use(cors())
 
 app.use(router)
 
-app.listen(3333, () => {console.log('Server is running')})
+app.listen(9999, () => {console.log('Server is running')})
