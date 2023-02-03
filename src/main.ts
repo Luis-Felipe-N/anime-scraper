@@ -9,7 +9,7 @@ import { config } from "dotenv"
 
 config()
 
-const host = process.env.DEBUG ? process.env.DATABASE_HOST : "localhost"
+const host = process.env.DEBUG ? "localhost" : process.env.DATABASE_HOST
 
 createConnection(host)
 
