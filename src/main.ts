@@ -5,7 +5,13 @@ import { router } from './routes'
 import { createConnection } from "./database/dataSource"
 const app = express()
 
-createConnection()
+import { config } from "dotenv"
+
+config()
+
+const host = process.env.DEBUG ? process.env.DATABASE_HOST : "localhost"
+
+createConnection(host)
 
 app.use(express.json())
 

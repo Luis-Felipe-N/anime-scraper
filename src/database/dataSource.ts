@@ -7,15 +7,16 @@ import { CreateGenres1663888538964 } from './migrations/1663888538964-CreateGenr
 import { CreateAnimeGenres1663889291954 } from './migrations/1663889291954-CreateAnimeGenres';
 import { CreateAddNewAttributeAnime1664202029815 } from './migrations/1664202029815-CreateAddNewAttributeAnime';
 import { CreateAddNewAttributeAnime1664240121831 } from './migrations/1664240121831-CreateAddNewAttributeAnime';
+import { config } from "dotenv"
 
+config()
 
 export const AppDataSource = new DataSource({
-    type: 'postgres',
-    port: 5432,
-    username: 'luisnunes',
-    password: 'user123',
-    database: 'animesv3',
-
+    type: process.env.DATABASE_TYPE,
+    port: process.env.DATABASE_PORT,
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_DATABASE,
     entities: [Anime,Season, Episode, Genre],
     migrations: [
         CreateAnimes1663856736832,
