@@ -3,14 +3,13 @@ import cors from 'cors'
 import express from 'express'
 import { router } from './routes'
 import { createConnection } from "./database/dataSource"
-const app = express()
 
 import { config } from "dotenv"
 
 config()
+const app = express()
 
-const host = process.env.DEBUG ? "localhost" : process.env.DATABASE_HOST
-
+const host = process.env.DATABASE_HOST
 createConnection(host)
 
 app.use(express.json())
