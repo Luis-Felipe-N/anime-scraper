@@ -8,7 +8,7 @@ import { slugify } from '../ultis/slugify'
 import { Scraper } from './Scraper'
 
 const GENRE_LIST = ['acao', 'artes-marciais', 'aventura', 'comedia', 'shounen']
-const BASE_URL = 'https://animesonline.cc'
+const BASE_URL = 'https://animesonlinecc.to/'
 
 interface IMoreInfos {
     status?: string,
