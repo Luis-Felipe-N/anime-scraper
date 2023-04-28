@@ -16,6 +16,7 @@ export const AppDataSource = new DataSource({
     type: process.env.DATABASE_TYPE,
     // @ts-ignore
     url: process.env.DATABASE_URL,
+    ssl: true,
     entities: [Anime,Season, Episode, Genre],
     migrations: [
         CreateAnimes1663856736832,
