@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { ListAnimeBySlugService } from "./ListAnimeBySlugService";
+import { GetAnimeBySlugService } from "./GetAnimeBySlugService";
 
-export class ListAnimeBySlugController {
+export class GetAnimeBySlugController {
     async handle(request: Request, response: Response) {
         const { slug } = request.params
 
-        const service = new ListAnimeBySlugService()
+        const service = new GetAnimeBySlugService()
 
         const anime = await service.execute(slug)
 

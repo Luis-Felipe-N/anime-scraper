@@ -1,7 +1,7 @@
 import { AppDataSource } from "../../../database/dataSource";
 import { Anime } from "../../../entities";
 
-export class ListAnimeBySlugService {
+export class GetAnimeBySlugService {
     async execute(slug: string): Promise<Anime | Error> {
         const repo = AppDataSource.getRepository(Anime)
 

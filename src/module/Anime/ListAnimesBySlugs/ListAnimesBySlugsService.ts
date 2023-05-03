@@ -6,8 +6,6 @@ export class ListAnimesBySlugsService {
     async execute(slugs: string[]): Promise<Anime[] | Error> {
         const repo = AppDataSource.getRepository(Anime)
 
-        console.log(slugs)
-
         const animes = await repo.find({
             where: {
                 slug: In(slugs)
