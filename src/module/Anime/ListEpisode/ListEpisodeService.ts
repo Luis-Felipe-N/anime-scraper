@@ -4,37 +4,22 @@ import { Episode } from "../../../entities";
 import { GetAnimeBySlugService } from "../GetAnimeBySlug/GetAnimeBySlugService";
 import { ListEpisodesBySeason } from "../ListEpisodesBySeason/ListEpisodesBySeasonService";
 import { ListSeasonByIdService } from "../ListSeason/ListSeasonByIdService";
+import { In } from "typeorm";
 
 export class ListEpisodeService {
-    async execute(episodeId: string) {
+    async execute(episodeIDs: string[]) {
         const repo = AppDataSource.getRepository(Episode)
         
-        const episode = await repo.findOneBy({
-            id: episodeId
+        const episodes = await repo.find({
+            where: {
+                id: In(episodeIDs)
+            }
         })
 
-        if (!episode) return new Error("Episodio não encontrado")
-        
-        const episodeBySeasonService = new ListEpisodesBySeason()
-        const remainingEpisodes = await episodeBySeasonService.execute(episode.season_id)
-
-        const seasonService = new ListSeasonByIdService()
-        const season = await seasonService.execute(episode.season_id)
-
-        if (!(season instanceof Error)) {
-            const animeService = new GetAnimeBySlugService()
-            const anime = await animeService.execute(season.anime_slug)
-            if (!(anime instanceof Error)) return {
-                episode,
-                remainingEpisodes,
-                anime
-            }
-        }
+        if (!episodes) return new Error("Episodio não encontrado")
 
         return {
-            episode,
-            remainingEpisodes,
-            anime: {}
+            episodes
         }
     }
 }

@@ -12,8 +12,6 @@ export class ListAnimesByGenreController {
 
         const animes = await serviceAnime.execute(genreSlug, query)
 
-        console.log(animes)
-
         if (animes instanceof Error) return response.status(400).json({
             message: animes.message
         })

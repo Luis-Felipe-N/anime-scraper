@@ -8,7 +8,8 @@ export class ListAnimePopularService {
 
         const animes = repo.find({
             where: {
-                cover: Not(IsNull())
+                cover: Not(IsNull()),
+                youtubeVideoId: Not(IsNull()),
             },
             order: {
                 rating: 'DESC'

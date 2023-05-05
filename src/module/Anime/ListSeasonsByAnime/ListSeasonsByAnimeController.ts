@@ -3,9 +3,7 @@ import { ListSeasonsByAnimeService } from "./ListSeasonsByAnimeService";
 
 export class ListSeasonsByAnimeController {
     async handle(request: Request, response: Response) {
-        const { slug: animeSlug } = request.params 
-
-        console.log(animeSlug)
+        const { slug: animeSlug } = request.params
 
         if (!animeSlug) return response.status(400).json({message: "AnimeSlug é obrigatório"})
 

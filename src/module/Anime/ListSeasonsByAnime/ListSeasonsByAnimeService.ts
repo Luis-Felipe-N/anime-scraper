@@ -9,8 +9,6 @@ export class ListSeasonsByAnimeService {
             const seasons = await repo.find({
                 where: { anime_slug: animeSlug }
             })
-
-            console.log(seasons)
     
             return seasons
         } catch (error) {

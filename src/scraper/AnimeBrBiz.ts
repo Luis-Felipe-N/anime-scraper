@@ -181,6 +181,7 @@ export default class AnimeBrBiz extends Scraper {
         }
 
         const moreInfoAnime = {
+            nsfw: dataAnime.nsfw,
             status: dataAnime.status,
             youtubeVideoId: dataAnime?.youtubeVideoId,
             cover: dataAnime.coverImage?.original,

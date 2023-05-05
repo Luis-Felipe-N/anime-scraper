@@ -10,8 +10,6 @@ export class ListSeasonByIdService {
             relations: ["episodes"]
         })
 
-        console.log(season)
-
         if (!season) return new Error("Temporada não encontrada")
 
         return season

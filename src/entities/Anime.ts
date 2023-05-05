@@ -30,6 +30,11 @@ export class Anime {
     youtubeVideoId: string
 
     @Column({
+        default: true
+    })
+    nsfw: boolean
+
+    @Column({
         nullable: true
     })
     status: string

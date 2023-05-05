@@ -18,8 +18,6 @@ export class ListAnimesByGenreService {
             }
         })
 
-        console.log(animes)
-
         if (!animes) return new Error(`Não há animes do gênero, ${genre}`)
 
         return animes

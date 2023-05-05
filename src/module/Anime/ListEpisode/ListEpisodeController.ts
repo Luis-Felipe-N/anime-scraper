@@ -3,16 +3,17 @@ import { ListEpisodeService } from "./ListEpisodeService";
 
 export class ListEpisodeController {
     async handle(request: Request, response: Response) {
-        const { episodeId } = request.params
+        const { episodeIDs } = request.body
 
-        if (!episodeId) return response.status(400).json({message: "episodeId é obrigatório"})
+        if (!episodeIDs) return response.status(400).json({message: "episodeIDs é obrigatório"})
 
         const episodeService = new ListEpisodeService()
 
-        const episode = await episodeService.execute(episodeId)
+        const episodes = await episodeService.execute(episodeIDs)
+        console.log(episodes)
 
         return response.status(200).json({
-            ...episode
+            ...episodes
         })
     }
 }
