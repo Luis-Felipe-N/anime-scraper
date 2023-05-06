@@ -1,7 +1,8 @@
 import { IAnimes, ISeasonsAnime } from "../../../@types/AnimesScraper";
 import { AppDataSource } from "../../../database/dataSource";
 import { Episode } from "../../../entities";
-import { GetAnimeBySlugService } from "../GetAnimeBySlug/GetAnimeBySlugService.ts";
+import { GetAnimeBySlugService } from "../GetAnimeBySlug/GetAnimeBySlugService";
+
 import { ListEpisodesBySeason } from "../ListEpisodesBySeason/ListEpisodesBySeasonService";
 import { ListSeasonByIdService } from "../ListSeason/ListSeasonByIdService";
 
