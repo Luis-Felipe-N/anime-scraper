@@ -4,7 +4,7 @@ import { GetAnimeBySlugController } from "../module/Anime/GetAnimeBySlug/GetAnim
 import { ListAnimePopularController } from "../module/Anime/ListAnimePopular/ListAnimePopularController";
 import { ListAnimesByGenreController } from "../module/Anime/ListAnimesByGenre/ListAnimesByGenreController";
 import { ListEpisodeController } from "../module/Anime/ListEpisode/ListEpisodeController";
-import { GetEpisodeController } from "../module/Anime/GetEpisode/GetEpisodeController.ts";
+import { GetEpisodeController } from "../module/Anime/GetEpisode/GetEpisodeController";
 import { ListEpisodesByController } from "../module/Anime/ListEpisodesBySeason/ListEpisodesByController";
 import { ListGenresController } from "../module/Anime/ListGenres/ListGenresController";
 import { ListSeasonByIdController } from "../module/Anime/ListSeason/ListSeasonByIdController";
@@ -18,7 +18,6 @@ animeRouter.get('/', new ListAnimesController().handle) // OK
 animeRouter.post('/', new ListAnimesBySlugsController().handle) // OK
 animeRouter.get('/genres', new ListGenresController().handle)
 animeRouter.get('/popular', new ListAnimePopularController().handle) // OK
-
 
 animeRouter.post('/episodes/', new ListEpisodeController().handle) // OK
 animeRouter.get('/episode/:episodeId', new GetEpisodeController().handle) // OK
