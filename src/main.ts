@@ -14,7 +14,10 @@ createConnection(host)
 
 app.use(express.json())
 
-app.use(cors())
+app.use(cors({
+    origin: 'https://kyuden.luisfelipenunes.com/',
+    optionsSuccessStatus: 200
+}));
 
 app.use(router)
 

@@ -14,7 +14,7 @@ export class ListAnimePopularService {
             order: {
                 rating: 'DESC'
             },
-            take: 6,
+            take: 10,
             relations: ["genres"]
         })
 
