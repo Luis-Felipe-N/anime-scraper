@@ -11,6 +11,7 @@ export class ListAnimesService {
             relations: ["seasons", "genres"],
             skip: query?.skip || 0, 
             take: query?.take || 10,
+            cache: true,
             where: {
                title: ILike(`%${query?.keyword}%`)
             }
