@@ -1,16 +1,16 @@
 import { Router } from "express";
-import { ListAnimesController } from "../module/Anime/ListAnime/ListAnimesController";
-import { GetAnimeBySlugController } from "../module/Anime/GetAnimeBySlug/GetAnimeBySlugController";
-import { ListAnimePopularController } from "../module/Anime/ListAnimePopular/ListAnimePopularController";
-import { ListAnimesByGenreController } from "../module/Anime/ListAnimesByGenre/ListAnimesByGenreController";
-import { ListEpisodeController } from "../module/Anime/ListEpisode/ListEpisodeController";
-import { GetEpisodeController } from "../module/Anime/GetEpisode/GetEpisodeController";
-import { ListEpisodesByController } from "../module/Anime/ListEpisodesBySeason/ListEpisodesByController";
-import { ListGenresController } from "../module/Anime/ListGenres/ListGenresController";
-import { ListSeasonByIdController } from "../module/Anime/ListSeason/ListSeasonByIdController";
-import { ListSeasonsByAnimeController } from "../module/Anime/ListSeasonsByAnime/ListSeasonsByAnimeController";
-import { UpdateAnimesByGenreController } from "../module/Anime/UpdateAnimeByGenre/UpdateAnimesByGenreController";
-import { ListAnimesBySlugsController } from "../module/Anime/ListAnimesBySlugs/ListAnimesBySlugsController";
+import { ListAnimesController } from "../module/Anime/useCases/ListAnime/ListAnimesController";
+import { GetAnimeBySlugController } from "../module/Anime/useCases/GetAnimeBySlug/GetAnimeBySlugController";
+import { ListAnimePopularController } from "../module/Anime/useCases/ListAnimePopular/ListAnimePopularController";
+import { ListAnimesByGenreController } from "../module/Anime/useCases/ListAnimesByGenre/ListAnimesByGenreController";
+import { ListEpisodeController } from "../module/Anime/useCases/ListEpisode/ListEpisodeController";
+import { GetEpisodeController } from "../module/Anime/useCases/GetEpisode/GetEpisodeController";
+import { ListEpisodesByController } from "../module/Anime/useCases/ListEpisodesBySeason/ListEpisodesByController";
+import { ListGenresController } from "../module/Anime/useCases/ListGenres/ListGenresController";
+import { ListSeasonByIdController } from "../module/Anime/useCases/ListSeason/ListSeasonByIdController";
+import { ListSeasonsByAnimeController } from "../module/Anime/useCases/ListSeasonsByAnime/ListSeasonsByAnimeController";
+import { UpdateAnimesByGenreController } from "../module/Anime/useCases/UpdateAnimeByGenre/UpdateAnimesByGenreController";
+import { ListAnimesBySlugsController } from "../module/Anime/useCases/ListAnimesBySlugs/ListAnimesBySlugsController";
 
 const animeRouter = Router()
 

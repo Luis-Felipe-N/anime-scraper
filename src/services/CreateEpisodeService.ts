@@ -3,11 +3,11 @@ import axios from "axios";
 import path from "path";
 import fs from 'fs'
 import { AppDataSource } from "../database/dataSource";
-import { Episode, Season } from "../entities";
+import { Episode } from "../module/Anime/entities/Episode";
+import { Season } from "../module/Anime/entities/Season";
 
 interface IEpisodeRequest {
     season_id: string; 
-    // id: string; 
     title: string; 
     image: string; 
     uploaded_at: Date; 

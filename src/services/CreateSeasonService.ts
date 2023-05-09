@@ -1,7 +1,7 @@
 import { AppDataSource } from "../database/dataSource";
-import { Episode, Season } from "../entities";
+import { Episode } from "../module/Anime/entities/Episode";
+import { Season } from "../module/Anime/entities/Season";
 import { CreateEpisodeService } from "./CreateEpisodeService";
-import { v4 as uuidV4} from 'uuid'
 
 interface ISeasonRequest {
     anime_slug: string;

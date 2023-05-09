@@ -8,9 +8,9 @@ services:
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_USER=luisnunes
-      - POSTGRES_PASSWORD=user123
-      - POSTGRES_DB=animesv3
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=Luis9090
+      - POSTGRES_DB=animes
     volumes:
       - mydata:/data/mysql
 
