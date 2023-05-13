@@ -10,6 +10,9 @@ export class ListAnimePopularService {
             where: {
                 cover: Not(IsNull()),
                 youtubeVideoId: Not(IsNull()),
+                seasons: {
+                    id: Not(IsNull())
+                }
             },
             order: {
                 rating: 'DESC'

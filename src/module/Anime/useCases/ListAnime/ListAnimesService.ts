@@ -1,4 +1,4 @@
-import { ILike } from "typeorm";
+import { ILike, IsNull, Not } from "typeorm";
 import { AppDataSource } from "../../../../database/dataSource";
 import { Anime } from "../../entities/Anime";
 
@@ -12,7 +12,10 @@ export class ListAnimesService {
             take: query?.take || 10,
             cache: true,
             where: {
-               title: ILike(`%${query?.keyword}%`)
+               title: ILike(`%${query?.keyword}%`),
+               seasons: {
+                  id: Not(IsNull())
+               }
             }
          })
 
