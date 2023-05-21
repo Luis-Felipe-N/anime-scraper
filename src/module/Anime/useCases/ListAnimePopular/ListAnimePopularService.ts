@@ -11,7 +11,10 @@ export class ListAnimePopularService {
                 cover: Not(IsNull()),
                 youtubeVideoId: Not(IsNull()),
                 seasons: {
-                    id: Not(IsNull())
+                    id: Not(IsNull()),
+                    episodes: {
+                        linkPlayer: Not(IsNull()),
+                    }
                 }
             },
             order: {

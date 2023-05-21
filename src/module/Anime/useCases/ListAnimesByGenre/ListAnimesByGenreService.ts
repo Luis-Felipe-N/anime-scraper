@@ -16,7 +16,10 @@ export class ListAnimesByGenreService {
                     name : genre
                 },
                 seasons: {
-                    id: Not(IsNull())
+                    id: Not(IsNull()),
+                    episodes: {
+                        linkPlayer: Not(IsNull()),
+                    }
                  }
             },
             order: {
