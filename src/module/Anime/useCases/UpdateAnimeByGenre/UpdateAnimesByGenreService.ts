@@ -32,7 +32,7 @@ export class UpdateAnimesByGenreService {
             const allSeasons = [];
 
             animesScraped.forEach(anime => {
-                anime.seasons.forEach(season => {
+                anime.seasons?.forEach(season => {
                     if (anime.slug) {
                         allSeasons.push({
                             ...season,

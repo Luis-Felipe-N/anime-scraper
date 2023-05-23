@@ -22,12 +22,16 @@ export async function animeBizExtractor(data: string) {
 }
 function extractorUrlFromString(str: string) {
     const indexStartStrem = str.replace('var VIDEO_CONFIG = ', '')
+    console.log(indexStartStrem)
+    try {
+        const obj = JSON.parse(indexStartStrem)
+        const streamsLength = obj.streams.length
+        const url = obj.streams[streamsLength - 1].play_url
 
-    const obj = JSON.parse(indexStartStrem)
-    const streamsLength = obj.streams.length
-    const url = obj.streams[streamsLength - 1].play_url
-
-    return url
+        return url
+    } catch (error) {
+        return null
+    }
 }   
 
 

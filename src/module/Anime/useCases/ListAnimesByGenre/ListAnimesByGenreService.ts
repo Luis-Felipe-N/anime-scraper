@@ -1,4 +1,4 @@
-import { IsNull, Not } from "typeorm";
+import { In, IsNull, Not } from "typeorm";
 import { AppDataSource } from "../../../../database/dataSource";
 import { Anime } from "../../entities/Anime";
 
@@ -13,7 +13,7 @@ export class ListAnimesByGenreService {
                 cover: Not(IsNull()),
                 post: Not(IsNull()),
                 genres: {
-                    name : genre
+                    name: genre
                 },
                 seasons: {
                     id: Not(IsNull()),
@@ -21,9 +21,6 @@ export class ListAnimesByGenreService {
                         linkPlayer: Not(IsNull()),
                     }
                  }
-            },
-            order: {
-                rating: "DESC"
             }
         })
 
