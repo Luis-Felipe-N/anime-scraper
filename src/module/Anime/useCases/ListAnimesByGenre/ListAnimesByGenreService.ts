@@ -15,6 +15,7 @@ export class ListAnimesByGenreService {
                 genres: {
                     name: genre
                 },
+                nsfw: false,
                 seasons: {
                     id: Not(IsNull()),
                     episodes: {

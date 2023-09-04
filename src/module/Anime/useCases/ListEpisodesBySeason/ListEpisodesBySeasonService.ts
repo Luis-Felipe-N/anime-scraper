@@ -12,7 +12,10 @@ export class ListEpisodesBySeason {
             const repo = AppDataSource.getRepository(Episode)
 
             const episodes = await repo.find({
-                where: { season_id: seasonId }
+                where: { season_id: seasonId },
+                order: {
+                    duration: "DESC"
+                }
             })  
 
             return episodes

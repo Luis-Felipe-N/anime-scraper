@@ -15,7 +15,8 @@ export class ListAnimePopularService {
                     episodes: {
                         linkPlayer: Not(IsNull()),
                     }
-                }
+                },
+                nsfw: false
             },
             order: {
                 rating: 'DESC'
